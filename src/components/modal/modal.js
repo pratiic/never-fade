@@ -57,7 +57,7 @@ const Modal = ({ modalInfo }) => {
 
     return (
         <div
-            className="flex justify-center items-center fixed l-0 t-0 h-screen w-screen bg-black-modal"
+            className="flex justify-center items-center fixed l-0 t-0 h-screen w-screen bg-black-modal z-50"
             id="modal-container"
             onClick={handleModalContainerClick}
         >
