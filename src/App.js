@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 
 import "./index.css";
@@ -42,7 +42,7 @@ const App = ({ userInfo, showDropdown }) => {
 
     return (
         <div className="h-screen app" onClick={handleAppClick}>
-            <BrowserRouter>
+            <HashRouter>
                 <div className="grid grid-rows-2 overflow-scroll h-full">
                     <Header />
                     <Modal />
@@ -130,7 +130,7 @@ const App = ({ userInfo, showDropdown }) => {
                         </div>
                     </div>
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     );
 };
