@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { BsImage } from "react-icons/bs";
 
 import { getDate } from "../../utils/utils.date-time";
 
@@ -19,16 +20,19 @@ const ContentCard = ({ title, created_at, id, image, type, users, query }) => {
             className="rounded cursor-pointer h-fit shadow-sm hover:scale-102 hover:shadow-lg active:scale-100 active:shadow-sm transition-all duration-100"
             onClick={handleContentCardClick}
         >
-            <img
-                src={
-                    image
-                        ? image
-                        : `https://avatars.dicebear.com/api/initials/${title}.svg`
-                }
-                className={`block w-full object-cover top-rounded ${
-                    image ? "max-h-64" : "h-44"
-                }`}
-            />
+            <div className="max-h-64 min-h-12 relative bg-grey">
+                <BsImage className="image-icon" />
+                <img
+                    src={
+                        image
+                            ? image
+                            : `https://avatars.dicebear.com/api/initials/${title}.svg`
+                    }
+                    className={`block w-full object-cover top-rounded relative ${
+                        image ? "max-h-64" : "max-h-48"
+                    }`}
+                />
+            </div>
             <div className="bg-grey-light py-2 pl-3 rounded-bl rounded-br">
                 <h4 className="text-lg capitalize text-black">{title}</h4>
                 {created_at && type === "memory" && (

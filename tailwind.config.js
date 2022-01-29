@@ -46,6 +46,8 @@ module.exports = {
             },
             minHeight: {
                 5: "5rem",
+                12: "12rem",
+                11: "11rem",
             },
             animation: {
                 spin: "spin 2s infinite linear",

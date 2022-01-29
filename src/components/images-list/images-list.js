@@ -3,6 +3,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 import { connect } from "react-redux";
 import { RiCloseFill } from "react-icons/ri";
+import { BsImage } from "react-icons/bs";
 
 import Heading from "../heading/heading";
 import ImagesAdder from "../images-adder/images-adder";
@@ -55,7 +56,7 @@ const ImagesList = ({
 
         return (
             <div
-                className="cursor-pointer rounded-sm shadow-md overflow-hidden mb-1 relative"
+                className="cursor-pointer rounded-sm shadow-md overflow-hidden mb-1 relative min-h-12"
                 ref={imageContainerRef}
             >
                 {canAdd && (
@@ -64,10 +65,11 @@ const ImagesList = ({
                         onClick={handleDeleteClick}
                     />
                 )}
+                <BsImage className="image-icon" />
                 <img
                     src={url}
                     ref={imageRef}
-                    className="block object-cover w-full"
+                    className="block object-cover w-full relative"
                 />
             </div>
         );
