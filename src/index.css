@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .sidebar-icon {
+        @apply h-5 w-5 text-grey-darker;
+    }
+
+    .sidebar-icon-container {
+        @apply rounded-full bg-grey-dark p-2 h-fit cursor-pointer hover:bg-grey-darkest active:bg-grey-dark mb-7;
+    }
+
+    .sidebar-icon-container-active .sidebar-icon {
+        @apply text-blue;
+    }
+
+    .heading {
+        @apply flex items-center mb-3;
+    }
+
+    .heading h2 {
+        @apply text-2xl capitalize text-black;
+    }
+
+    .heading-smaller {
+        @apply heading;
+    }
+
+    .heading-smaller h2 {
+        @apply text-xl capitalize text-black;
+    }
+
+    .heading-space-between {
+        @apply heading justify-between;
+    }
+
+    .button {
+        @apply flex items-center justify-center bg-blue text-white rounded px-3 py-1 text-lg capitalize min-w-5 hover:-translate-y-1 hover:shadow-lg active:bg-blue-darker active:translate-y-0 active:shadow-none transition-all duration-100;
+    }
+
+    .button-secondary {
+        @apply button bg-white border border-grey text-blue hover:bg-grey-light;
+    }
+
+    .button-tertiary {
+        @apply button-secondary py-0 hover:bg-grey hover:translate-y-0 hover:shadow-none active:bg-grey-dark;
+    }
+
+    .button-loading {
+        @apply form-button bg-blue-light bg-opacity-70 text-grey-light pointer-events-none;
+    }
+
+    .button-full {
+        @apply button w-full;
+    }
+
+    .button-small {
+        @apply button px-2 text-md;
+    }
+
+    .button-secondary-small {
+        @apply button-secondary px-2 text-md;
+    }
+
+    .form-button {
+        @apply button-full mt-3;
+    }
+
+    .button-center {
+        @apply m-auto;
+    }
+
+    .icon {
+        @apply text-grey-darker hover:bg-grey hover:text-black rounded-full box-content p-1 active:bg-grey-dark active:text-grey-darker transition-all duration-100  h-6 w-6 cursor-pointer;
+    }
+
+    .icon-black {
+        @apply icon text-black;
+    }
+
+    .icon-bigger {
+        @apply icon h-7 w-7;
+    }
+
+    .icon-black-bigger {
+        @apply icon-black h-7 w-7;
+    }
+
+    .link {
+        @apply text-blue hover:underline hover:underline-offset-1;
+    }
+
+    .file-selector {
+        @apply flex items-center button bg-grey text-grey-darker active:bg-grey-dark mb-3;
+    }
+
+    .form-label {
+        @apply block text-lg capitalize text-grey-darker ml-1;
+    }
+
+    .toggle-list-header {
+        @apply flex items-center text-xl text-black capitalize mb-3 px-3;
+    }
+
+    .content-description {
+        @apply text-lg py-1 border border-grey px-2 w-fit rounded-sm;
+    }
+
+    .top-rounded {
+        @apply rounded-tl rounded-tr;
+    }
+
+    .bottom-rounded {
+        @apply rounded-bl rounded-br;
+    }
+}
