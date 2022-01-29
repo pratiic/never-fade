@@ -13,10 +13,17 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import django_heroku
+import dj_database_url
+import dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_file = BASE_DIR / ".env"
+
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -126,16 +133,16 @@ WSGI_APPLICATION = 'server.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd72hcjmor8cds3',
-        'USER': 'rrbsnnwlogqsjy',
-        'PASSWORD': '8775dd4bef812d622e443cce01467fa6d20db82331323a869bc5182f7157509a',
-        'HOST': 'ec2-34-205-209-14.compute-1.amazonaws.com',
-        'PORT': '5432'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'd72hcjmor8cds3',
+#         'USER': 'rrbsnnwlogqsjy',
+#         'PASSWORD': '8775dd4bef812d622e443cce01467fa6d20db82331323a869bc5182f7157509a',
+#         'HOST': 'ec2-34-205-209-14.compute-1.amazonaws.com',
+#         'PORT': '5432'
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -148,6 +155,8 @@ DATABASES = {
 #     }
 # }
 
+DATABASES = {}
+DATABASES["default"] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -210,3 +219,6 @@ AUTH_USER_MODEL = "api.User"
 CORS_ALLOW_ALL_ORIGINS = True
 
 django_heroku.settings(locals())
+
+options = DATABASES["default"].get("OPTIONS", {})
+options.pop("sslmode", None)
