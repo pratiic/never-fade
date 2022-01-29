@@ -56,12 +56,12 @@ const ImagesList = ({
 
         return (
             <div
-                className="cursor-pointer rounded-sm shadow-md overflow-hidden mb-1 relative min-h-12"
+                className="cursor-pointer rounded-sm shadow-md overflow-hidden mb-1 relative min-h-11 bg-grey"
                 ref={imageContainerRef}
             >
                 {canAdd && (
                     <TiDeleteOutline
-                        className="absolute top-0 right-0 text-grey icon"
+                        className="absolute top-0 right-0 text-grey icon z-10"
                         onClick={handleDeleteClick}
                     />
                 )}
@@ -111,7 +111,7 @@ const ImagesList = ({
             )}
 
             {images.length > 0 ? (
-                <div className="grid grid-cols-list auto-rows-3 gap-x-1 grid-flow-row-dense overflow-hidden">
+                <div className="grid grid-cols-list auto-rows-3 gap-x-1 grid-flow-row-dense">
                     {images.map((image) => {
                         return (
                             <Image

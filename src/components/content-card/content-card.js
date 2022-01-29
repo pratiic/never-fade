@@ -20,7 +20,7 @@ const ContentCard = ({ title, created_at, id, image, type, users, query }) => {
             className="rounded cursor-pointer h-fit shadow-sm hover:scale-102 hover:shadow-lg active:scale-100 active:shadow-sm transition-all duration-100"
             onClick={handleContentCardClick}
         >
-            <div className="max-h-64 min-h-12 relative bg-grey">
+            <div className="max-h-64 min-h-11 relative bg-grey">
                 <BsImage className="image-icon" />
                 <img
                     src={
