@@ -88,14 +88,12 @@ const Login = ({ userInfo }) => {
                 <MessagesContainer messages={errors} />
                 <InputGroup
                     label="email"
-                    placeholder="enter your email"
                     value={email}
                     ref={inputRef}
                     changeHandler={setEmail}
                 />
                 <InputGroup
                     label="password"
-                    placeholder="enter your password"
                     value={password}
                     type="password"
                     changeHandler={setPassword}

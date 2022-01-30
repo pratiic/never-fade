@@ -6,6 +6,7 @@ import { BiExit } from "react-icons/bi";
 import { useLocation, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { FaSlideshare } from "react-icons/fa";
+import { connect } from "react-redux";
 
 import { logout } from "../../redux/current-user/current-user.actions";
 import {
@@ -16,7 +17,24 @@ import {
 import SidebarIcon from "../sidebar-icon/sidebar-icon";
 import ContentOptions from "../content-options/content-options";
 
-const Sidebar = () => {
+const Sidebar = ({ sidebar: { full } }) => {
+    const handleCreateClick = () => {
+        dispatch(showModal(<ContentOptions />));
+    };
+
+    const handleLogoutClick = () => {
+        dispatch(
+            showConfirmationModal(
+                "are you sure you want to log out ?",
+                handleLogout
+            )
+        );
+    };
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
     const [links, setLinks] = useState([
         {
             title: "memories",
@@ -54,6 +72,24 @@ const Sidebar = () => {
             linkTo: "/memory-spaces",
             active: false,
         },
+        {
+            title: "create",
+            icon: (
+                <AiOutlinePlus className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+            ),
+            activeLinks: ["/memories/create", "/memory-spaces/create"],
+            clickHandler: handleCreateClick,
+            active: false,
+        },
+        {
+            title: "sign out",
+            icon: (
+                <BiExit className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+            ),
+            activeLinks: [],
+            clickHandler: handleLogoutClick,
+            active: false,
+        },
     ]);
 
     const location = useLocation();
@@ -75,52 +111,50 @@ const Sidebar = () => {
         );
     }, [location]);
 
-    const handleLogoutClick = () => {
-        dispatch(
-            showConfirmationModal(
-                "are you sure you want to log out ?",
-                handleLogout
-            )
-        );
-    };
-
-    const handleLogout = () => {
-        dispatch(logout());
-    };
-
-    const handleCreateClick = () => {
-        dispatch(showModal(<ContentOptions />));
-    };
-
     return (
-        <div className="flex flex-col items-center bg-grey pt-7 rounded-bl-lg border-r border-grey-dark h-full">
+        <div
+            className={`flex flex-col items-end bg-grey rounded-bl-lg h-full ${
+                !full && "pt-7"
+            } hidden 850:block`}
+        >
             {links.map((link) => {
                 return (
-                    <Link
-                        to={link.linkTo}
-                        className="flex items-center"
+                    <div
+                        onClick={link.clickHandler && link.clickHandler}
+                        className="w-full"
                         key={link.linkTo}
                     >
-                        <SidebarIcon icon={link.icon} active={link.active} />
-                    </Link>
+                        <Link
+                            to={link.linkTo || ""}
+                            className={`flex items-center justify-end text-grey-darker w-full bg-grey group hover:text-black active:text-grey-darker transition-all duration-100 ${
+                                link.active && "text-blue"
+                            } ${
+                                full
+                                    ? "px-7 py-3 border-b border-grey-light"
+                                    : "px-3 pb-7"
+                            }`}
+                        >
+                            {full && (
+                                <span className={"mr-3 capitalize text-lg"}>
+                                    {link.title}
+                                </span>
+                            )}
+                            <SidebarIcon
+                                icon={link.icon}
+                                active={link.active}
+                            />
+                        </Link>
+                    </div>
                 );
             })}
-            <div onClick={handleCreateClick}>
-                <SidebarIcon
-                    icon={
-                        <AiOutlinePlus className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
-                    }
-                />
-            </div>
-            <div onClick={handleLogoutClick}>
-                <SidebarIcon
-                    icon={
-                        <BiExit className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
-                    }
-                />
-            </div>
         </div>
     );
 };
 
-export default Sidebar;
+const mapStateToProps = (state) => {
+    return {
+        sidebar: state.sidebar,
+    };
+};
+
+export default connect(mapStateToProps)(Sidebar);

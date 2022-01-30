@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
 import { AiOutlinePlus } from "react-icons/ai";
+import { BiExit } from "react-icons/bi";
+
+import {
+    closeModal,
+    showConfirmationModal,
+    showLoadingModal,
+} from "../../redux/modal/modal.actions";
+import { removeMemorySpace } from "../../redux/memory-spaces/memory-spaces.actions";
 
 import { getDate } from "../../utils/utils.date-time";
 import { getErrorMessage } from "../../utils/utils.errors";
+import { addMembers } from "../../api/memory-spaces.api";
 
 import Heading from "../../components/heading/heading";
 import ToggleList from "../../components/toggle-list/toggle-list";
 import CardsList from "../../components/cards-list/cards-list";
 import ContentMenu from "../../components/content-menu/content-menu";
 import Status from "../../components/status/status";
+import DetailsSkeleton from "../../skeletons/details-skeleton/details-skeleton";
 
 const SpaceDetails = ({ userInfo }) => {
     const [spaceDetails, setSpaceDetails] = useState({});
@@ -18,14 +28,19 @@ const SpaceDetails = ({ userInfo }) => {
         "this memory space has no memories"
     );
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getSpaceDetails();
     }, []);
 
     const getSpaceDetails = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch(`/api/memory-spaces/${id}`, {
                 headers: {
@@ -44,8 +59,46 @@ const SpaceDetails = ({ userInfo }) => {
             if (data.error) {
                 setError(getErrorMessage(data.error, "memory space"));
             }
-        } catch (error) {}
+        } catch (error) {
+        } finally {
+            setLoading(false);
+        }
     };
+
+    const handleExitClick = () => {
+        dispatch(
+            showConfirmationModal(
+                "are you sure you want to leave the memory space ?",
+                memberExitHandler
+            )
+        );
+    };
+
+    const memberExitHandler = async () => {
+        dispatch(showLoadingModal("leaving memory space"));
+
+        try {
+            const data = await addMembers(
+                id,
+                spaceDetails.users.filter((user) => user.id !== userInfo.id),
+                true,
+                userInfo.token
+            );
+
+            if (data.memory_space) {
+                // setSpaceDetails(data.memory_space);
+                dispatch(removeMemorySpace(Number(id)));
+                navigate("/memory-spaces");
+            }
+        } catch (error) {
+        } finally {
+            dispatch(closeModal());
+        }
+    };
+
+    if (loading) {
+        return <DetailsSkeleton type="memory space" />;
+    }
 
     if (error) {
         return <Status text={error} />;
@@ -88,9 +141,15 @@ const SpaceDetails = ({ userInfo }) => {
                                 ({users.length})
                             </span>
                         </h4>
-                        <Link to={`/memory-spaces/add-members/${id}`}>
-                            <AiOutlinePlus className="icon" />
-                        </Link>
+                        <div className="flex items-center ml-7">
+                            <Link to={`/memory-spaces/add-members/${id}`}>
+                                <AiOutlinePlus className="icon" />
+                            </Link>
+                            <BiExit
+                                className="icon ml-3"
+                                onClick={handleExitClick}
+                            />
+                        </div>
                     </div>
                 </ToggleList>
             </div>

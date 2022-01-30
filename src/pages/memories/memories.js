@@ -8,10 +8,17 @@ import { getMemories } from "../../redux/memories/memories.actions";
 import CardsList from "../../components/cards-list/cards-list";
 import Heading from "../../components/heading/heading";
 
-const Memories = ({ userInfo, memories: { memories, loading } }) => {
+const Memories = ({
+    userInfo,
+    memories: { memories, loading, needToFetch },
+}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const memoriesMessage = "looks like you have not created any memories";
+
+    useEffect(() => {
+        document.title = "Your memories";
+    }, []);
 
     useEffect(() => {
         if (!userInfo) {
@@ -20,9 +27,10 @@ const Memories = ({ userInfo, memories: { memories, loading } }) => {
     }, [userInfo]);
 
     useEffect(() => {
-        document.title = "Your memories";
-        dispatch(getMemories());
-    }, []);
+        if (needToFetch) {
+            dispatch(getMemories());
+        }
+    }, [needToFetch]);
 
     return (
         <div>

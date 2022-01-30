@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { TiDeleteOutline } from "react-icons/ti";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useDispatch } from "react-redux";
 
 import UserCard from "../user-card/user-card";
 
-const ToggleList = ({ children, list }) => {
+const ToggleList = ({ children, list, removeHandler }) => {
     const [showList, setShowList] = useState(false);
 
     const toggleList = () => {
@@ -50,7 +51,17 @@ const ToggleList = ({ children, list }) => {
                                                 size="smaller"
                                             />
                                         </div>
-                                        <TiDeleteOutline className="icon ml-3" />
+                                        {removeHandler && (
+                                            <TiDeleteOutline
+                                                className="icon ml-3"
+                                                onClick={() =>
+                                                    removeHandler(
+                                                        user.username,
+                                                        user.id
+                                                    )
+                                                }
+                                            />
+                                        )}
                                     </div>
                                 );
                             })}

@@ -12,7 +12,7 @@ import OptionsToggler from "../../components/options-toggler/options-toggler";
 import Heading from "../../components/heading/heading";
 
 const SharedMemories = ({
-    sharedMemories: { sharedMemories, loading, type, options },
+    sharedMemories: { sharedMemories, loading, type, options, needToFetch },
     userInfo,
 }) => {
     const dispatch = useDispatch();
@@ -29,8 +29,10 @@ const SharedMemories = ({
     }, []);
 
     useEffect(() => {
-        dispatch(getSharedMemories(type));
-    }, [type]);
+        if (needToFetch) {
+            dispatch(getSharedMemories(type));
+        }
+    }, [needToFetch]);
 
     useEffect(() => {
         document.title = "Shared memories";

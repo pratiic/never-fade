@@ -30,11 +30,12 @@ const ContentOptions = ({ userInfo }) => {
     const handleCreateClick = () => {
         const activeOption = options.find((option) => option.active);
 
-        if (activeOption === "memory") {
-            return navigate("/memories/create");
+        if (activeOption.title === "memory") {
+            navigate("/memories/create");
+        } else {
+            navigate("/memory-spaces/create");
         }
 
-        navigate("/memory-spaces/create");
         dispatch(closeModal());
     };
 

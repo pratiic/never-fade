@@ -30,3 +30,30 @@ export const setSharedMemoriesType = (type) => {
         payload: type,
     };
 };
+
+export const updateSharedMemory = (updateInfo) => {
+    return {
+        type: "UPDATE_SHARED_MEMORY",
+        payload: updateInfo,
+    };
+};
+
+export const addSharedMemory = (memory) => {
+    return {
+        type: "ADD_SHARED_MEMORY",
+        payload: memory,
+    };
+};
+
+export const removeSharedMemory = (id) => {
+    return {
+        type: "REMOVE_SHARED_MEMORY",
+        payload: id,
+    };
+};
+
+export const resetSharedMemories = () => {
+    return {
+        type: "RESET_SHARED_MEMORIES",
+    };
+};

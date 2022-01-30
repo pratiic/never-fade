@@ -2,9 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, connect } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { updateMemory } from "../../redux/memories/memories.actions";
+import { addMemory, updateMemory } from "../../redux/memories/memories.actions";
 import { resetFiles } from "../../redux/files/files.actions";
-import { updateMemorySpace } from "../../redux/memory-spaces/memory-spaces.actions";
+import {
+    addMemorySpace,
+    updateMemorySpace,
+} from "../../redux/memory-spaces/memory-spaces.actions";
 import { closeModal, showLoadingModal } from "../../redux/modal/modal.actions";
 
 import { getErrors } from "../../utils/utils.errors";
@@ -159,6 +162,8 @@ const ContentControl = ({
 
     const handleFetchComplete = (data) => {
         if (contentMemory) {
+            dispatch(addMemory(data.memory));
+
             if (memorySpace) {
                 return navigate(`/memory-spaces/${memorySpace}`);
             }
@@ -167,7 +172,8 @@ const ContentControl = ({
             );
         }
 
-        return navigate(
+        dispatch(addMemorySpace(data.memory_space));
+        navigate(
             `/memory-spaces/add-members/${data.memory_space.id}/?while-create=true`
         );
     };
@@ -186,9 +192,7 @@ const ContentControl = ({
                 />
                 <InputGroup
                     label={`${contentMemory ? "title" : "name"}`}
-                    placeholder={`${
-                        contentMemory ? "title" : "name"
-                    } of your ${type}`}
+                    placeholder="maximum 100 characters"
                     value={title}
                     ref={inputRef}
                     changeHandler={setTitle}

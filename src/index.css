@@ -4,11 +4,11 @@
 
 @layer components {
     .sidebar-icon {
-        @apply h-5 w-5 text-grey-darker;
+        @apply h-5 w-5;
     }
 
     .sidebar-icon-container {
-        @apply rounded-full bg-grey-dark p-2 h-fit cursor-pointer hover:bg-grey-darkest active:bg-grey-dark mb-7;
+        @apply rounded-full bg-grey-dark p-2 h-fit cursor-pointer  active:bg-grey-dark;
     }
 
     .sidebar-icon-container-active .sidebar-icon {

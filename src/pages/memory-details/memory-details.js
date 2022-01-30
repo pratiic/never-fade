@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { IoMdShareAlt } from "react-icons/io";
+import { FiUserMinus } from "react-icons/fi";
+
+import {
+    closeModal,
+    showConfirmationModal,
+} from "../../redux/modal/modal.actions";
+import { removeSharedMemory } from "../../redux/shared-memories/shared-memories.actions";
+
+import { shareMemory } from "../../api/memories.api";
 
 import { getDate } from "../../utils/utils.date-time";
 import { capitalizeFirstLetter } from "../../utils/utils.strings";
@@ -13,15 +22,18 @@ import ImagesList from "../../components/images-list/images-list";
 import ContentMenu from "../../components/content-menu/content-menu";
 import ToggleList from "../../components/toggle-list/toggle-list";
 import Status from "../../components/status/status";
+import DetailsSkeleton from "../../skeletons/details-skeleton/details-skeleton";
 
 const MemoryDetails = ({ userInfo }) => {
     const [memoryDetails, setMemoryDetails] = useState({});
     const [memoryImages, setMemoryImages] = useState([]);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!userInfo) {
@@ -34,6 +46,8 @@ const MemoryDetails = ({ userInfo }) => {
     }, []);
 
     const fetchMemoryDetails = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch(`/api/memories/${id}`, {
                 headers: {
@@ -50,7 +64,10 @@ const MemoryDetails = ({ userInfo }) => {
             if (data.error) {
                 setError(getErrorMessage(data.error, "memory"));
             }
-        } catch (error) {}
+        } catch (error) {
+        } finally {
+            setLoading(false);
+        }
     };
 
     const removeMemoryImage = (imageID) => {
@@ -60,6 +77,44 @@ const MemoryDetails = ({ userInfo }) => {
     const addMemoryImages = (images) => {
         setMemoryImages([...memoryImages, ...images]);
     };
+
+    const removeHandler = (username, id) => {
+        dispatch(
+            showConfirmationModal(
+                `are you sure you want to unshare this memory with ${
+                    id === userInfo.id ? "you" : username
+                } ?`,
+                () => handleUserRemoval(id)
+            )
+        );
+    };
+
+    const handleUserRemoval = async (userID) => {
+        try {
+            const data = await shareMemory(
+                id,
+                userInfo.token,
+                true,
+                shared_with.filter((user) => user.id !== userID)
+            );
+
+            if (data.memory) {
+                setMemoryDetails(data.memory);
+
+                if (userID === userInfo.id) {
+                    dispatch(removeSharedMemory(data.memory.id));
+                    navigate("/memories/shared");
+                }
+            }
+        } catch (error) {
+        } finally {
+            dispatch(closeModal());
+        }
+    };
+
+    if (loading) {
+        return <DetailsSkeleton type="memory" />;
+    }
 
     if (error) {
         return <Status text={error} />;
@@ -83,7 +138,7 @@ const MemoryDetails = ({ userInfo }) => {
 
     const PostDetails = () => {
         return (
-            <div className="flex items-center mb-7">
+            <div className="flex items-center mb-5">
                 <ProfilePicture url={avatar} username={username} />
                 <div className="ml-3 leading-snug">
                     <p className="text-black text-lg capitalize">
@@ -135,23 +190,22 @@ const MemoryDetails = ({ userInfo }) => {
                     />
                 )}
             </Heading>
-            <div className="grid grid-cols-details mb-7">
+            <div className="grid grid-cols-details mb-7 gap-5 1000:grid-cols-details-medium">
                 <div>
                     <PostDetails />
                     {description && (
-                        <p className="content-description">
+                        <p className="content-description max-w-md">
                             {capitalizeFirstLetter(description)}
                         </p>
                     )}
                 </div>
-                <ToggleList list={shared_with}>
-                    <div
-                        className={`toggle-list-header ${
-                            isOwner || memory_space
-                                ? "justify-between"
-                                : "justify-center"
-                        }`}
-                    >
+                <ToggleList
+                    list={shared_with}
+                    removeHandler={
+                        !memory_space && isOwner ? removeHandler : null
+                    }
+                >
+                    <div className={"toggle-list-header justify-between"}>
                         <h4>
                             shared with{" "}
                             <span className="text-grey-darker">
@@ -162,6 +216,19 @@ const MemoryDetails = ({ userInfo }) => {
                             <Link to={`/memories/share/${id}/`}>
                                 <IoMdShareAlt className="icon ml-3" />
                             </Link>
+                        )}
+                        {shared_with.find(
+                            (user) => user.id === userInfo.id
+                        ) && (
+                            <FiUserMinus
+                                className="icon"
+                                onClick={() =>
+                                    removeHandler(
+                                        userInfo.username,
+                                        userInfo.id
+                                    )
+                                }
+                            />
                         )}
                     </div>
                 </ToggleList>

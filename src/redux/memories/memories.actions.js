@@ -51,10 +51,18 @@ export const updateMemory = (id, updateInfo, callback) => {
             const data = await response.json();
 
             if (data.memory) {
+                if (data.memory.shared) {
+                    dispatch({
+                        type: "UPDATE_SHARED_MEMORY",
+                        payload: data.memory,
+                    });
+                }
+
                 dispatch({
                     type: "MEMORY_UPDATE_SUCCESS",
                     payload: data.memory,
                 });
+
                 dispatch({ type: "UNSELECT_ALL_USERS" });
 
                 if (callback) {
@@ -79,5 +87,25 @@ export const setMemoryToUpdate = (memory) => {
     return {
         type: "SET_MEMORY_TO_UPDATE",
         payload: memory,
+    };
+};
+
+export const setNeedToFetch = (needToFetch) => {
+    return {
+        type: "SET_NEED_TO_FETCH_MEMORIES",
+        payload: needToFetch,
+    };
+};
+
+export const removeMemory = (id) => {
+    return {
+        type: "REMOVE_MEMORY",
+        payload: id,
+    };
+};
+
+export const resetMemories = () => {
+    return {
+        type: "RESET_MEMORIES",
     };
 };

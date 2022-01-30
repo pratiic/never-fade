@@ -72,3 +72,23 @@ export const setMemorySpaceToUpdate = (memorySpace) => {
         payload: memorySpace,
     };
 };
+
+export const addMemorySpace = (memorySpace) => {
+    return {
+        type: "ADD_MEMORY_SPACE",
+        payload: memorySpace,
+    };
+};
+
+export const removeMemorySpace = (id) => {
+    return {
+        type: "REMOVE_MEMORY_SPACE",
+        payload: id,
+    };
+};
+
+export const resetMemorySpaces = () => {
+    return {
+        type: "RESET_MEMORY_SPACES",
+    };
+};

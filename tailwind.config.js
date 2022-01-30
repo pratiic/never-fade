@@ -16,9 +16,13 @@ module.exports = {
                 "black-modal": "rgba(0, 0, 0, 0.7)",
             },
             gridTemplateColumns: {
-                2: "4rem auto",
+                2: "auto 1fr",
                 list: "repeat(auto-fit, 17rem)",
-                details: "50% auto",
+                "list-medium": "repeat(auto-fit, 14rem)",
+                "list-small": "repeat(2, 1fr)",
+                "list-smallest": "1fr",
+                details: "1fr auto",
+                "details-medium": "50% auto",
             },
             gridTemplateRows: {
                 2: "3.5rem",
@@ -51,6 +55,12 @@ module.exports = {
             },
             animation: {
                 spin: "spin 2s infinite linear",
+            },
+            screens: {
+                smallest: "400px",
+                650: "650px",
+                850: "850px",
+                1000: "1000px",
             },
         },
     },

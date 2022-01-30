@@ -20,7 +20,7 @@ const CardsList = ({
     }
 
     return (
-        <div className="grid grid-cols-list gap-7">
+        <div className="grid grid-cols-list gap-7 justify-center smallest:justify-start">
             {loading
                 ? getSkeletons(<ContentSkeleton />)
                 : list.map((listItem) => {

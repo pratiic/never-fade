@@ -93,28 +93,26 @@ const Register = ({ userInfo, selectedFiles }) => {
                 <MessagesContainer messages={errors} />
                 <InputGroup
                     label="username"
-                    placeholder="enter your username"
+                    placeholder="minimum 5 characters"
                     value={username}
                     ref={inputRef}
                     changeHandler={setUsername}
                 />
                 <InputGroup
                     label="email"
-                    placeholder="enter your email"
                     value={email}
                     changeHandler={setEmail}
                 />
                 <FileSelector label="avatar" />
                 <InputGroup
                     label="password"
-                    placeholder="enter your password"
+                    placeholder="minimum 7 characters"
                     value={password}
                     type="password"
                     changeHandler={setPassword}
                 />
                 <InputGroup
                     label="retype password"
-                    placeholder="confirm your password"
                     value={confirmedPassword}
                     type="password"
                     changeHandler={setConfirmedPassword}

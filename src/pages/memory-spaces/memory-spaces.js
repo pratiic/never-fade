@@ -10,14 +10,18 @@ import { setSearchType } from "../../redux/search/search.actions";
 import Heading from "../../components/heading/heading";
 import CardsList from "../../components/cards-list/cards-list";
 
-const MemorySpaces = ({ memorySpaces: { memorySpaces, loading } }) => {
+const MemorySpaces = ({
+    memorySpaces: { memorySpaces, loading, needToFetch },
+}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const memorySpacesMessage = "you are not a member of any memory spaces";
 
     useEffect(() => {
-        dispatch(getMemorySpaces());
-    }, []);
+        if (needToFetch) {
+            dispatch(getMemorySpaces());
+        }
+    }, [needToFetch]);
 
     const handleSearchClick = () => {
         dispatch(setSearchType("memory space"));

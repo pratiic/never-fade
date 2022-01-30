@@ -16,6 +16,7 @@ const UserCard = ({
     showSelect,
     size,
     border = false,
+    userInfo,
     clickHandler,
 }) => {
     const dispatch = useDispatch();
@@ -46,7 +47,9 @@ const UserCard = ({
         >
             <ProfilePicture url={avatar} username={username} size={size} />
             <div className="ml-2">
-                <p className="text-black text-lg">{username}</p>
+                <p className="text-black text-lg">
+                    {userInfo.id === id ? "me" : username}
+                </p>
                 <p className="text-grey-darker -mt-1">{email}</p>
             </div>
             {selected && <TiTick className="text-blue h-5 w-5" />}
@@ -57,6 +60,7 @@ const UserCard = ({
 const mapStateToProps = (state) => {
     return {
         selectedUsers: state.users.selectedUsers,
+        userInfo: state.currentUser.userInfo,
     };
 };
 

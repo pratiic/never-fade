@@ -1,3 +1,5 @@
+import { removeArrItem, updateArrItem } from "../../utils/utils.reducers";
+
 const INITIAL_STATE = {
     sharedMemories: [],
     loading: false,
@@ -8,6 +10,7 @@ const INITIAL_STATE = {
         { title: "by me", active: false },
         { title: "all", active: false },
     ],
+    needToFetch: true,
 };
 
 export const sharedMemoriesReducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +18,12 @@ export const sharedMemoriesReducer = (state = INITIAL_STATE, action) => {
         case "SHARED_MEMORIES_REQUEST":
             return { ...state, loading: true };
         case "SHARED_MEMORIES_SUCCESS":
-            return { ...state, sharedMemories: action.payload, loading: false };
+            return {
+                ...state,
+                sharedMemories: action.payload,
+                loading: false,
+                needToFetch: false,
+            };
         case "SHARED_MEMORIES_FAILURE":
             return { ...INITIAL_STATE, error: action.payload };
         case "ADD_SHARED_MEMORY":
@@ -34,7 +42,27 @@ export const sharedMemoriesReducer = (state = INITIAL_STATE, action) => {
 
                     return { ...option, active: false };
                 }),
+                needToFetch: true,
             };
+        case "UPDATE_SHARED_MEMORY":
+            return {
+                ...state,
+                sharedMemories: updateArrItem(
+                    action.payload.id,
+                    state.sharedMemories,
+                    action.payload
+                ),
+            };
+        case "REMOVE_SHARED_MEMORY":
+            return {
+                ...state,
+                sharedMemories: removeArrItem(
+                    action.payload,
+                    state.sharedMemories
+                ),
+            };
+        case "RESET_SHARED_MEMORIES":
+            return { ...INITIAL_STATE };
         default:
             return state;
     }

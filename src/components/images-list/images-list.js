@@ -4,6 +4,9 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { connect } from "react-redux";
 import { RiCloseFill } from "react-icons/ri";
 import { BsImage } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+
+import { closeModal, showLoadingModal } from "../../redux/modal/modal.actions";
 
 import Heading from "../heading/heading";
 import ImagesAdder from "../images-adder/images-adder";
@@ -19,6 +22,7 @@ const ImagesList = ({
     const [showAdder, setShowAdder] = useState(false);
 
     const imagesMessage = "this memory has no images";
+    const dispatch = useDispatch();
 
     const toggleImagesAdder = () => {
         setShowAdder(!showAdder);
@@ -37,6 +41,8 @@ const ImagesList = ({
         }, []);
 
         const handleDeleteClick = async () => {
+            dispatch(showLoadingModal("deleting image"));
+
             try {
                 const response = await fetch(`/api/images/delete/${id}/`, {
                     method: "DELETE",
@@ -51,6 +57,8 @@ const ImagesList = ({
                 }
             } catch (error) {
                 console.log(error);
+            } finally {
+                dispatch(closeModal());
             }
         };
 

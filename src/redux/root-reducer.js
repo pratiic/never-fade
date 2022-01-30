@@ -9,6 +9,7 @@ import { memorySpacesReducer } from "./memory-spaces/memory-spaces.reducer";
 import { searchReducer } from "./search/search.reducer";
 import { dropdownReducer } from "./dropdown/dropdown.reducer";
 import { modalReducer } from "./modal/modal.reducer";
+import { sidebarReducer } from "./sidebar/sidebar.reducer";
 
 export default combineReducers({
     currentUser: currentUserReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
     search: searchReducer,
     dropdown: dropdownReducer,
     modal: modalReducer,
+    sidebar: sidebarReducer,
 });

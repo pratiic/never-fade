@@ -250,15 +250,24 @@ def edit_memory(request, memory_id):
 def share_memory(request, memory_id):
     memory = Memory.objects.get(id=memory_id)
     userIDs = request.data["shared_with"]
+    replace = request.query_params["replace"]
 
-    if memory.owner.id != request.user.id:
-        return Response({"error": "unauthorized"})
+    # if memory.owner.id != request.user.id:
+    #     return Response({"error": "unauthorized"})
 
     try:
-        for userID in userIDs:
-            memory.shared_with.add(userID)
 
-        memory.shared = True
+        if replace:
+            memory.shared_with.set(request.data["shared_with"])
+        else:
+            for userID in userIDs:
+                memory.shared_with.add(userID)
+
+        if len(list(memory.shared_with.all())):
+            memory.shared =  True
+        else:
+            memory.shared = False
+
         memory.save()
         serializer = MemoryDetailsSerializer(memory)
 
@@ -444,6 +453,7 @@ def search_memory_space(request):
 @permission_classes([IsAuthenticated])
 def add_memory_space_members(request, memory_space_id):
     memory_space = None
+    replace = request.query_params["replace"]
 
     try:
         memory_space = MemorySpace.objects.get(id=memory_space_id)
@@ -453,10 +463,13 @@ def add_memory_space_members(request, memory_space_id):
     if request.user not in memory_space.users.all():
         return Response({"error": "unauthorized"})
 
-    for userID in request.data["members"]:
-        memory_space.users.add(userID)
+    if replace == "true":
+        memory_space.users.set(request.data["members"])
+    else:
+        for userID in request.data["members"]:
+            memory_space.users.add(userID)
 
     memory_space.save()
-    serializer = MemorySpaceSerializer(memory_space)
+    serializer = MemorySpaceDetailsSerializer(memory_space)
 
     return Response({"memory_space": serializer.data})

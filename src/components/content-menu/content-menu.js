@@ -3,14 +3,21 @@ import { HiMenuAlt4 } from "react-icons/hi";
 import { useDispatch, connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setMemoryToUpdate } from "../../redux/memories/memories.actions";
-import { setMemorySpaceToUpdate } from "../../redux/memory-spaces/memory-spaces.actions";
+import {
+    removeMemory,
+    setMemoryToUpdate,
+} from "../../redux/memories/memories.actions";
+import {
+    removeMemorySpace,
+    setMemorySpaceToUpdate,
+} from "../../redux/memory-spaces/memory-spaces.actions";
 import { toggleDropdown as toggleDropdownRedux } from "../../redux/dropdown/dropdown.actions";
 import {
     closeModal,
     showConfirmationModal,
     showLoadingModal,
 } from "../../redux/modal/modal.actions";
+import { removeSharedMemory } from "../../redux/shared-memories/shared-memories.actions";
 
 import Dropdown from "../dropdown/dropdown";
 import DropdownItem from "../dropdown-item/dropdown-item";
@@ -83,9 +90,12 @@ const ContentMenu = ({
 
             if (response.status === 200) {
                 if (type === "memory") {
+                    dispatch(removeMemory(Number(id)));
+                    dispatch(removeSharedMemory(Number(id)));
                     return navigate("/");
                 }
 
+                dispatch(removeMemorySpace(Number(id)));
                 navigate("/memory-spaces");
             }
         } catch (error) {

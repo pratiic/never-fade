@@ -1,3 +1,7 @@
+import { resetMemories } from "../memories/memories.actions";
+import { resetMemorySpaces } from "../memory-spaces/memory-spaces.actions";
+import { resetSharedMemories } from "../shared-memories/shared-memories.actions";
+
 export const setCurrentUser = (userInfo) => {
     return (dispatch) => {
         dispatch({
@@ -15,5 +19,8 @@ export const logout = () => {
             type: "CURRENT_USER_LOGOUT",
         });
         dispatch({ type: "CLOSE_MODAL" });
+        dispatch(resetMemories());
+        dispatch(resetSharedMemories());
+        dispatch(resetMemorySpaces());
     };
 };

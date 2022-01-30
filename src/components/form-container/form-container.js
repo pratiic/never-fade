@@ -5,7 +5,7 @@ import { capitalizeFirstLetter } from "../../utils/utils.strings";
 
 const FormContainer = ({ title, subtitle, subtitleLink, children }) => {
     return (
-        <div className="flex flex-col items-center pt-2">
+        <div className="flex flex-col items-center">
             <div className="mb-3">
                 <h3 className="text-center text-2xl text-black">
                     {capitalizeFirstLetter(title)}

@@ -4,6 +4,8 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { closeModal, showLoadingModal } from "../../redux/modal/modal.actions";
 
+import { addMembers } from "../../api/memory-spaces.api";
+
 import Heading from "../../components/heading/heading";
 import UserSearch from "../../components/user-search/user-search";
 
@@ -18,22 +20,12 @@ const AddMembers = ({ userInfo, selectedUsers }) => {
         dispatch(showLoadingModal("adding members"));
 
         try {
-            const response = await fetch(
-                `/api/memory-spaces/add-members/${id}/`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${userInfo.token}`,
-                    },
-                    body: JSON.stringify({
-                        members: selectedUsers.map(
-                            (selectedUser) => selectedUser.id
-                        ),
-                    }),
-                }
+            const data = await addMembers(
+                id,
+                selectedUsers,
+                false,
+                userInfo.token
             );
-            const data = await response.json();
 
             if (data.memory_space) {
                 navigate(`/memory-spaces/${id}`);

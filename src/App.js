@@ -46,9 +46,13 @@ const App = ({ userInfo, showDropdown }) => {
                 <div className="grid grid-rows-2 overflow-scroll h-full">
                     <Header />
                     <Modal />
-                    <div className={`grid ${userInfo && "grid-cols-2"}`}>
+                    <div
+                        className={`grid ${
+                            userInfo && "grid-cols-1"
+                        } 850:grid-cols-2`}
+                    >
                         {userInfo && <Sidebar />}
-                        <div className="px-7 py-2 overflow-scroll">
+                        <div className="px-5 py-2 overflow-scroll smallest:px-7">
                             <Routes>
                                 <Route path="/login" element={<Login />} />
                                 <Route
