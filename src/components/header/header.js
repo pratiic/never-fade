@@ -18,10 +18,13 @@ const Header = ({ userInfo }) => {
     };
 
     return (
-        <div className="flex justify-between items-center px-3 border-b border-grey smallest:px-7">
+        <div className="flex justify-between items-center px-5 border-b border-grey 650:px-7">
             <div className="flex items-center">
                 {userInfo && (
-                    <FiMenu className="icon mr-3" onClick={handleMenuClick} />
+                    <FiMenu
+                        className="icon mr-3 850:hidden"
+                        onClick={handleMenuClick}
+                    />
                 )}
                 <Logo />
             </div>

@@ -5,6 +5,7 @@ import { connect, useDispatch } from "react-redux";
 import "./index.css";
 
 import { hideDropdown } from "./redux/dropdown/dropdown.actions";
+import { hideSidebar } from "./redux/sidebar/sidebar.actions";
 
 import Sidebar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
@@ -31,12 +32,16 @@ const ContentSearch = lazy(() =>
 const AddMembers = lazy(() => import("./pages/add-members/add-members"));
 const UserProfile = lazy(() => import("./pages/user-profile/user-profile"));
 
-const App = ({ userInfo, showDropdown }) => {
+const App = ({ userInfo, showDropdown, showSidebar }) => {
     const dispatch = useDispatch();
 
     const handleAppClick = () => {
         if (showDropdown) {
             dispatch(hideDropdown());
+        }
+
+        if (showSidebar) {
+            dispatch(hideSidebar());
         }
     };
 
@@ -46,13 +51,9 @@ const App = ({ userInfo, showDropdown }) => {
                 <div className="grid grid-rows-2 overflow-scroll h-full">
                     <Header />
                     <Modal />
-                    <div
-                        className={`grid ${
-                            userInfo && "grid-cols-1"
-                        } 850:grid-cols-2`}
-                    >
-                        {userInfo && <Sidebar />}
-                        <div className="px-5 py-2 overflow-scroll smallest:px-7">
+                    <div className="850:grid 850:grid-cols-2">
+                        {userInfo ? <Sidebar /> : <div></div>}
+                        <div className="px-5 py-2 overflow-scroll 650:px-7">
                             <Routes>
                                 <Route path="/login" element={<Login />} />
                                 <Route
@@ -143,6 +144,7 @@ const mapStateToProps = (state) => {
     return {
         userInfo: state.currentUser.userInfo,
         showDropdown: state.dropdown.showDropdown,
+        showSidebar: state.sidebar.show,
     };
 };
 

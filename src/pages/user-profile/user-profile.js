@@ -124,7 +124,10 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
 
         return (
             <FormContainer title="change your password">
-                <form className="w-72" onSubmit={handlePasswordFormSubmit}>
+                <form
+                    className="w-60 400:w-72"
+                    onSubmit={handlePasswordFormSubmit}
+                >
                     <MessagesContainer messages={passwordErrors} />
                     <InputGroup
                         label="current password"
@@ -159,7 +162,7 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
     return (
         <div>
             <Heading text="your profile"></Heading>
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center 600:flex-row 600:items-start">
                 <div className="w-52">
                     <ProfilePicture
                         url={avatar}
@@ -170,7 +173,7 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
                     <div className="mt-3"></div>
                     <FileSelector full />
                 </div>
-                <form className="w-72 ml-7" onSubmit={handleFormSubmit}>
+                <form className="w-72 600:ml-7" onSubmit={handleFormSubmit}>
                     <MessagesContainer messages={errors} />
                     <InputGroup
                         label="username"

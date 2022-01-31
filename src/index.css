@@ -118,4 +118,12 @@
     .image-icon {
         @apply absolute h-32 w-32 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-grey-darker;
     }
+
+    .content-details {
+        @apply grid grid-cols-details mb-7 gap-5 700:grid-cols-details-small 1000:grid-cols-details-medium;
+    }
+}
+
+.app {
+    -webkit-tap-highlight-color: transparent;
 }

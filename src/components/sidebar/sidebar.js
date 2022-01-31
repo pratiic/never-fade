@@ -17,7 +17,7 @@ import {
 import SidebarIcon from "../sidebar-icon/sidebar-icon";
 import ContentOptions from "../content-options/content-options";
 
-const Sidebar = ({ sidebar: { full } }) => {
+const Sidebar = ({ sidebar: { full, show } }) => {
     const handleCreateClick = () => {
         dispatch(showModal(<ContentOptions />));
     };
@@ -115,7 +115,9 @@ const Sidebar = ({ sidebar: { full } }) => {
         <div
             className={`flex flex-col items-end bg-grey rounded-bl-lg h-full ${
                 !full && "pt-7"
-            } hidden 850:block`}
+            } absolute -translate-x-full 850:static 850:translate-x-0 transition-all duration-100 z-20 ${
+                show && "translate-x-0"
+            }`}
         >
             {links.map((link) => {
                 return (
@@ -130,7 +132,7 @@ const Sidebar = ({ sidebar: { full } }) => {
                                 link.active && "text-blue"
                             } ${
                                 full
-                                    ? "px-7 py-3 border-b border-grey-light"
+                                    ? "px-11 py-3 border-b border-grey-light 850:px-7"
                                     : "px-3 pb-7"
                             }`}
                         >

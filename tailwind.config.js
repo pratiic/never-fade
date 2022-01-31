@@ -21,7 +21,8 @@ module.exports = {
                 "list-medium": "repeat(auto-fit, 14rem)",
                 "list-small": "repeat(2, 1fr)",
                 "list-smallest": "1fr",
-                details: "1fr auto",
+                details: "1fr",
+                "details-small": "1fr auto",
                 "details-medium": "50% auto",
             },
             gridTemplateRows: {
@@ -43,6 +44,7 @@ module.exports = {
             minWidth: {
                 15: "15rem",
                 5: "5rem",
+                20: "20rem",
             },
             maxWidth: {
                 15: "15rem",
@@ -57,8 +59,11 @@ module.exports = {
                 spin: "spin 2s infinite linear",
             },
             screens: {
-                smallest: "400px",
+                400: "400px",
+                550: "550px",
+                600: "600px",
                 650: "650px",
+                700: "700px",
                 850: "850px",
                 1000: "1000px",
             },

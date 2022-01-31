@@ -113,7 +113,7 @@ const SpaceDetails = ({ userInfo }) => {
 
     return (
         <div>
-            <div className="grid grid-cols-details mb-5">
+            <div className="content-details">
                 <div className="mr-3">
                     <Heading text={name} spacebetween>
                         <ContentMenu

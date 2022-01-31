@@ -15,7 +15,7 @@ const DetailsSkeleton = ({ type }) => {
                 <div className="h-7 w-44 rounded bg-grey"></div>
                 <div className={iconClassName}></div>
             </div>
-            <div className="grid grid-cols-details">
+            <div className="content-details">
                 <div>
                     <div className="flex items-center mb-5">
                         <div className="h-11 w-11 bg-grey rounded-full"></div>

@@ -190,7 +190,7 @@ const MemoryDetails = ({ userInfo }) => {
                     />
                 )}
             </Heading>
-            <div className="grid grid-cols-details mb-7 gap-5 1000:grid-cols-details-medium">
+            <div className="content-details">
                 <div>
                     <PostDetails />
                     {description && (

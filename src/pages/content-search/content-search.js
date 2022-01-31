@@ -79,12 +79,14 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
                     type === "memory" ? "memories" : "memory spaces"
                 }`}
             ></Heading>
-            <div className="flex items-center">
-                <OptionsToggler
-                    options={options}
-                    toggleHandler={toggleHandler}
-                    dropdownPosition="left"
-                />
+            <div className="flex items-center flex-wrap">
+                <div className="">
+                    <OptionsToggler
+                        options={options}
+                        toggleHandler={toggleHandler}
+                        dropdownPosition="left"
+                    />
+                </div>
                 <div className="mr-3"></div>
                 <GenericSearch
                     placeholder="memory title, description, date"
