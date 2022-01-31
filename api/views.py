@@ -316,11 +316,10 @@ def add_images(request, memory_id):
 
     if images:
         for image in images:
-            newImg = Image.objects.create(memory=memory, image=image)
-            serializer = ImageSerializer(
-                data={"memory": newImg.memory.id, "image": newImg.image}, many=False)
+            serializer = ImageSerializer(data = { "memory": memory.id, "image": image })
 
             if serializer.is_valid():
+                serializer.save()
                 serialized_images.append(serializer.data)
             else:
                 return Response({"errors": serializer.errors})

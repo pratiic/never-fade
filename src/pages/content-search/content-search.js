@@ -80,7 +80,7 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
                 }`}
             ></Heading>
             <div className="flex items-center flex-wrap">
-                <div className="">
+                <div className="mb-3">
                     <OptionsToggler
                         options={options}
                         toggleHandler={toggleHandler}
@@ -88,13 +88,15 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
                     />
                 </div>
                 <div className="mr-3"></div>
-                <GenericSearch
-                    placeholder="memory title, description, date"
-                    submitHandler={handleFormSubmit}
-                />
+                <div className="mb-3">
+                    <GenericSearch
+                        placeholder="memory title, description, date"
+                        submitHandler={handleFormSubmit}
+                    />
+                </div>
             </div>
             {searchResults.length > 0 && (
-                <p className="ml-3 mt-3 text-grey-darker text-lg">
+                <p className="ml-3 mb-3 text-grey-darker text-lg">
                     Found {searchResults.length}{" "}
                     {type === "memory"
                         ? searchResults.length > 1
@@ -105,7 +107,7 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
                         : "memory space"}
                 </p>
             )}
-            <div className="mb-3"></div>
+            {/* <div className="mb-3"></div> */}
             <CardsList
                 list={searchResults}
                 type={type}

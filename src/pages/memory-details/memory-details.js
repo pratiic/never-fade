@@ -93,10 +93,12 @@ const MemoryDetails = ({ userInfo }) => {
         try {
             const data = await shareMemory(
                 id,
-                userInfo.token,
+                shared_with.filter((user) => user.id !== userID),
                 true,
-                shared_with.filter((user) => user.id !== userID)
+                userInfo.token
             );
+
+            console.log(data);
 
             if (data.memory) {
                 setMemoryDetails(data.memory);

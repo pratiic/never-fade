@@ -93,7 +93,7 @@ const Register = ({ userInfo, selectedFiles }) => {
                 <MessagesContainer messages={errors} />
                 <InputGroup
                     label="username"
-                    placeholder="minimum 5 characters"
+                    placeholder="minimum 5 characters, maximum 25 characters"
                     value={username}
                     ref={inputRef}
                     changeHandler={setUsername}

@@ -120,7 +120,7 @@
     }
 
     .content-details {
-        @apply grid grid-cols-details mb-7 gap-5 700:grid-cols-details-small 1000:grid-cols-details-medium;
+        @apply grid grid-cols-details mb-7 gap-5 1000:grid-cols-details-medium;
     }
 }
 

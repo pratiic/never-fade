@@ -162,7 +162,7 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
     return (
         <div>
             <Heading text="your profile"></Heading>
-            <div className="flex flex-col items-center 600:flex-row 600:items-start">
+            <div className="flex flex-col items-center 600:flex-row 600:items-start 600:justify-center">
                 <div className="w-52">
                     <ProfilePicture
                         url={avatar}
