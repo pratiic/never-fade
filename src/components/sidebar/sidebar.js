@@ -115,7 +115,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         <div
             className={`flex flex-col items-end bg-grey rounded-bl-lg h-full ${
                 !full && "pt-7"
-            } absolute -translate-x-full 850:static 850:translate-x-0 transition-all duration-100 z-20 ${
+            } absolute -translate-x-full 850:static 850:translate-x-0 transition-all duration-100 z-40 ${
                 show && "translate-x-0"
             }`}
         >
