@@ -21,7 +21,7 @@ const ProfilePicture = ({ url, username, size, rounded = true }) => {
             }
             className={`block ${
                 rounded ? "rounded-full" : "rounded"
-            } ${classNames}`}
+            } ${classNames} object-fit`}
         />
     );
 };

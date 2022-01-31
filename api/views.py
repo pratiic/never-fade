@@ -206,7 +206,7 @@ def get_memory_details(request, memory_id):
         return Response({"error": "not found"}, status=404)
 
     if (memory.memory_space):
-        if request.user not in memory.memory_space.users.all():
+        if request.user not in memory.memory_space.users.all() and request.user not in list(memory.shared_with.all()):
             return Response({"error": "unauthorized"})
     else:
         if memory.owner != request.user and request.user not in list(memory.shared_with.all()):
@@ -257,7 +257,7 @@ def share_memory(request, memory_id):
 
     try:
 
-        if replace:
+        if replace == "true":
             memory.shared_with.set(request.data["shared_with"])
         else:
             for userID in userIDs:

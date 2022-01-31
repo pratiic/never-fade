@@ -36,7 +36,7 @@ const OptionsToggler = ({
     };
 
     return (
-        <div className="relative w-fit">
+        <div className="relative w-fit z-30">
             <span
                 className="flex items-center bg-grey px-2 h-9 rounded cursor-pointer capitalize whitespace-nowrap hover:bg-grey-dark active:bg-grey-darkest transition-all duration-100"
                 onClick={toggleDropdown}

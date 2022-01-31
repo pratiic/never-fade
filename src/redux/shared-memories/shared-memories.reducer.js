@@ -8,7 +8,6 @@ const INITIAL_STATE = {
     options: [
         { title: "with me", active: true },
         { title: "by me", active: false },
-        { title: "all", active: false },
     ],
     needToFetch: true,
 };

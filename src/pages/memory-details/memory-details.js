@@ -136,6 +136,7 @@ const MemoryDetails = ({ userInfo }) => {
         memory_space,
     } = memoryDetails;
     const isOwner = userInfo.id === userID;
+    const isMember = memory_space?.users.find((user) => user === userInfo.id);
     document.title = capitalizeFirstLetter(title);
 
     const PostDetails = () => {
@@ -183,7 +184,7 @@ const MemoryDetails = ({ userInfo }) => {
     return (
         <div>
             <Heading text={title} spacebetween>
-                {(isOwner || memory_space) && (
+                {(isOwner || isMember) && (
                     <ContentMenu
                         id={id}
                         title={title}
@@ -203,9 +204,7 @@ const MemoryDetails = ({ userInfo }) => {
                 </div>
                 <ToggleList
                     list={shared_with}
-                    removeHandler={
-                        !memory_space && isOwner ? removeHandler : null
-                    }
+                    removeHandler={isMember || isOwner ? removeHandler : null}
                 >
                     <div className={"toggle-list-header justify-between"}>
                         <h4>
@@ -214,24 +213,26 @@ const MemoryDetails = ({ userInfo }) => {
                                 ({shared_with.length})
                             </span>
                         </h4>
-                        {(isOwner || memory_space) && (
-                            <Link to={`/memories/share/${id}/`}>
-                                <IoMdShareAlt className="icon ml-3" />
-                            </Link>
-                        )}
-                        {shared_with.find(
-                            (user) => user.id === userInfo.id
-                        ) && (
-                            <FiUserMinus
-                                className="icon"
-                                onClick={() =>
-                                    removeHandler(
-                                        userInfo.username,
-                                        userInfo.id
-                                    )
-                                }
-                            />
-                        )}
+                        <div className="flex items-center ml-7">
+                            {(isOwner || isMember) && (
+                                <Link to={`/memories/share/${id}/`}>
+                                    <IoMdShareAlt className="icon" />
+                                </Link>
+                            )}
+                            {shared_with.find(
+                                (user) => user.id === userInfo.id
+                            ) && (
+                                <FiUserMinus
+                                    className="icon ml-3"
+                                    onClick={() =>
+                                        removeHandler(
+                                            userInfo.username,
+                                            userInfo.id
+                                        )
+                                    }
+                                />
+                            )}
+                        </div>
                     </div>
                 </ToggleList>
             </div>
@@ -239,7 +240,7 @@ const MemoryDetails = ({ userInfo }) => {
                 images={memoryImages}
                 removeMemoryImage={removeMemoryImage}
                 addMemoryImages={addMemoryImages}
-                canAdd={isOwner || memory_space}
+                canAdd={isOwner || isMember}
             />
         </div>
     );

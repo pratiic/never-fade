@@ -114,7 +114,7 @@ const SpaceDetails = ({ userInfo }) => {
     return (
         <div>
             <div className="content-details">
-                <div className="mr-3">
+                <div>
                     <Heading text={name} spacebetween>
                         <ContentMenu
                             id={id}

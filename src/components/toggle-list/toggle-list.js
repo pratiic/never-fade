@@ -13,7 +13,7 @@ const ToggleList = ({ children, list, removeHandler }) => {
     };
 
     return (
-        <div className="border border-grey rounded px-2 pt-2 pb-3 h-fit w-fit min-w-15">
+        <div className="border border-grey rounded px-2 pt-2 pb-3 h-fit w-fit min-w-15 max-w-22 overflow-hidden">
             {children}
             <div>
                 {list.length === 0 ? (
