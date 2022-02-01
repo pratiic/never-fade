@@ -20,7 +20,9 @@ const InputGroup = forwardRef(
 
         return (
             <div className="mb-5">
-                <label className="form-label">{label}</label>
+                <label className="form-label">
+                    {capitalizeFirstLetter(label)}
+                </label>
                 {displayType === "textarea" ? (
                     <textarea
                         placeholder={placeholder}

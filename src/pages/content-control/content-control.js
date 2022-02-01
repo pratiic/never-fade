@@ -36,7 +36,8 @@ const ContentControl = ({
     const [description, setDescription] = useState(
         contentToUpdate.description || ""
     );
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(contentToUpdate.date || "");
+    const [category, setCategory] = useState(contentToUpdate.category || "");
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState([]);
     const [contentMemory, setContentMemory] = useState(type === "memory");
@@ -99,20 +100,25 @@ const ContentControl = ({
             }
 
             return dispatch(
-                updateMemory(memoryToUpdate.id, { title, description }, () => {
-                    navigate(`/memories/${memoryToUpdate.id}`);
-                })
+                updateMemory(
+                    memoryToUpdate.id,
+                    {
+                        title,
+                        description,
+                        date: date || new Date().toLocaleDateString(),
+                        category,
+                    },
+                    () => {
+                        navigate(`/memories/${memoryToUpdate.id}`);
+                    }
+                )
             );
         }
 
         const formData = new FormData();
         formData.append(contentMemory ? "title" : "name", title);
         formData.append("description", description);
-
-        // formData.append(
-        //     "date",
-        //     date ? new Date(date).toDateString() : new Date().toDateString()
-        // );
+        formData.append("category", category);
 
         if (contentMemory && memorySpace) {
             formData.append("memory_space", memorySpace);
@@ -126,6 +132,16 @@ const ContentControl = ({
             } else {
                 formData.append("image", selectedFiles[0]);
             }
+        }
+
+        if (date) {
+            const memoryDate = new Date(date);
+
+            if (String(memoryDate) === "Invalid Date") {
+                return setErrors(["the date is invalid"]);
+            }
+
+            formData.append("date", date);
         }
 
         try {
@@ -204,13 +220,24 @@ const ContentControl = ({
                     displayType="textarea"
                     changeHandler={setDescription}
                 />
-                {/* <InputGroup
-                    label="memory date"
-                    placeholder="optional"
-                    value={date}
-                    info="if left empty, this will be assigned to today's date"
-                    changeHandler={setDate}
-                /> */}
+                {contentMemory && (
+                    <React.Fragment>
+                        <InputGroup
+                            label="how does this memory make you feel ?"
+                            placeholder="optional, helps with searching"
+                            value={category}
+                            info="separate feelings with commas (happy, excited, joyful)"
+                            changeHandler={setCategory}
+                        />
+                        <InputGroup
+                            label="memory date"
+                            placeholder="optional"
+                            value={date}
+                            info="if left empty, this will be assigned to today's date"
+                            changeHandler={setDate}
+                        />
+                    </React.Fragment>
+                )}
                 {!editMode && (
                     <FileSelector
                         label={contentMemory ? "images" : "image"}

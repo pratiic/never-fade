@@ -27,8 +27,9 @@ class Memory (models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     # image = models.ImageField(null=True, blank=True)
-    date = models.DateTimeField(blank=True, null=True)
     preview = models.ImageField(blank=True, null=True)
+    category = models.CharField(max_length = 100, blank = True, null = True)
+    date = models.CharField(max_length = 100, blank = True, null = True)
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
     shared_with = models.ManyToManyField(

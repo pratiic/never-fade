@@ -174,19 +174,20 @@ def create_memory(request):
         if not memory.date:
             memory.date = memory.created_at
 
+        images_to_serialize = []
+
         if images:
-            memory.preview = images[0]
-
             for image in images:
-                image_serializer = ImageSerializer(
-                    data={"memory": memory.id, "image": image})
+                images_to_serialize.append({ "image": image, "memory": memory.id })
 
-                if image_serializer.is_valid():
-                    newImg = image_serializer.save()
-                else:
-                    memory.delete()
-                    return Response({"errors": image_serializer.errors})
-                # newImg = Image.objects.create(memory=memory, image=image)
+            image_serializer = ImageSerializer(data = images_to_serialize, many = True)
+
+            if image_serializer.is_valid():
+                image_serializer.save()
+                memory.preview = image_serializer.data[0]["image"][60:]
+            else:
+                memory.delete()
+                return Response({"errors": image_serializer.errors})
 
         memory.save()
 
@@ -281,7 +282,7 @@ def share_memory(request, memory_id):
 def search_memory(request):
     query = request.query_params["query"]
     memories = Memory.objects.filter(
-        Q(title__icontains=query) | Q(description__icontains=query) | Q(date__icontains=query)).filter(Q(owner=request.user) | Q(memory_space__users__id=request.user.id))
+        Q(title__icontains=query) | Q(description__icontains=query) | Q(date__icontains=query) | Q(category__icontains=query)).filter(Q(owner=request.user) | Q(memory_space__users__id=request.user.id))
     serializer = MemorySerializer(memories, many=True)
     return Response({"memories": serializer.data})
 
@@ -312,21 +313,26 @@ def add_images(request, memory_id):
             return Response({"error": "unauthorized"})
 
     images = request.FILES.getlist("images")
+    images_to_serialize = []
     serialized_images = []
 
     if images:
         for image in images:
-            serializer = ImageSerializer(data = { "memory": memory.id, "image": image })
+            images_to_serialize.append({ "image": image, "memory": memory.id })
 
-            if serializer.is_valid():
-                serializer.save()
-                serialized_images.append(serializer.data)
-            else:
-                return Response({"errors": serializer.errors})
+        serializer = ImageSerializer(data = images_to_serialize, many = True)
 
-        if not memory.preview:
-            memory.preview = images[0]
-            memory.save()
+        if serializer.is_valid():
+            serializer.save()
+
+            if not memory.preview:
+                memory.preview = serializer.data[0]["image"][60:]
+                memory.save()
+                print(memory)
+            serialized_images = serializer.data
+        else:
+            return Response({"errors": serializer.errors})
+
 
     return Response({"images": serialized_images})
 
@@ -341,7 +347,7 @@ def delete_image(request, image_id):
 
     if (len(memory_images)) > 0:
         image_serializer = ImageSerializer(memory_images[0], many=False)
-        memory.preview = image_serializer.data["image"][7:]
+        memory.preview = image_serializer.data["image"][60:]
     else:
         memory.preview = None
 

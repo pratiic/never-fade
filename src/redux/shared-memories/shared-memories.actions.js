@@ -52,6 +52,13 @@ export const removeSharedMemory = (id) => {
     };
 };
 
+export const setNeedToFetch = (needToFetch) => {
+    return {
+        type: "SET_NEED_TO_FETCH_SHARED_MEMORIES",
+        payload: needToFetch,
+    };
+};
+
 export const resetSharedMemories = () => {
     return {
         type: "RESET_SHARED_MEMORIES",

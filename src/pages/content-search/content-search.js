@@ -90,7 +90,11 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
                 <div className="mr-3"></div>
                 <div className="mb-3">
                     <GenericSearch
-                        placeholder="memory title, description, date"
+                        placeholder={
+                            type === "memory"
+                                ? "memory title, description, date, feeling"
+                                : "title, description"
+                        }
                         submitHandler={handleFormSubmit}
                     />
                 </div>

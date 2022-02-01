@@ -19,7 +19,7 @@ const GenericSearch = ({ placeholder, submitHandler }) => {
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="max-w-full min-w-20 w-full 400:w-72"
+            className="max-w-full min-w-20 w-full 400:w-80"
         >
             <div
                 className={`flex items-center h-9 bg-grey rounded px-2 ${

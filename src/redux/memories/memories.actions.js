@@ -34,6 +34,17 @@ export const addMemory = (memory) => {
 
 export const updateMemory = (id, updateInfo, callback) => {
     return async (dispatch, getState) => {
+        if (updateInfo.date) {
+            const memoryDate = new Date(updateInfo.date);
+
+            if (String(memoryDate) === "Invalid Date") {
+                return dispatch({
+                    type: "MEMORY_UPDATE_FAILURE",
+                    payload: ["the date is invalid"],
+                });
+            }
+        }
+
         dispatch({ type: "MEMORY_UPDATE_REQUEST" });
         dispatch(showLoadingModal("editing memory"));
 

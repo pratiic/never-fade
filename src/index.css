@@ -96,7 +96,7 @@
     }
 
     .form-label {
-        @apply block text-lg capitalize text-grey-darker ml-1;
+        @apply block text-lg text-grey-darker ml-1;
     }
 
     .toggle-list-header {

@@ -53,7 +53,7 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                     <Modal />
                     <div className="850:grid 850:grid-cols-2">
                         {userInfo ? <Sidebar /> : <div></div>}
-                        <div className="px-5 py-2 overflow-scroll 650:px-7">
+                        <div className="px-5 py-2 overflow-scroll 650:px-7 h-full">
                             <Routes>
                                 <Route path="/login" element={<Login />} />
                                 <Route

@@ -8,10 +8,13 @@ import {
     closeModal,
     showConfirmationModal,
 } from "../../redux/modal/modal.actions";
-import { removeSharedMemory } from "../../redux/shared-memories/shared-memories.actions";
+import {
+    removeSharedMemory,
+    setNeedToFetch as setNeedToFetchSharedMemories,
+} from "../../redux/shared-memories/shared-memories.actions";
+import { setNeedToFetch as setNeedToFetchMemories } from "../../redux/memories/memories.actions";
 
 import { shareMemory } from "../../api/memories.api";
-
 import { getDate } from "../../utils/utils.date-time";
 import { capitalizeFirstLetter } from "../../utils/utils.strings";
 import { getErrorMessage } from "../../utils/utils.errors";
@@ -23,6 +26,7 @@ import ContentMenu from "../../components/content-menu/content-menu";
 import ToggleList from "../../components/toggle-list/toggle-list";
 import Status from "../../components/status/status";
 import DetailsSkeleton from "../../skeletons/details-skeleton/details-skeleton";
+import Tag from "../../components/tag/tag";
 
 const MemoryDetails = ({ userInfo }) => {
     const [memoryDetails, setMemoryDetails] = useState({});
@@ -72,10 +76,12 @@ const MemoryDetails = ({ userInfo }) => {
 
     const removeMemoryImage = (imageID) => {
         setMemoryImages(memoryImages.filter((image) => image.id !== imageID));
+        setNeedToFetchMem();
     };
 
     const addMemoryImages = (images) => {
         setMemoryImages([...memoryImages, ...images]);
+        setNeedToFetchMem();
     };
 
     const removeHandler = (username, id) => {
@@ -114,6 +120,21 @@ const MemoryDetails = ({ userInfo }) => {
         }
     };
 
+    const renderMemoryTags = () => {
+        if (!category) {
+            return null;
+        }
+
+        return category.split(",").map((tag) => {
+            return <Tag key={tag}>{tag}</Tag>;
+        });
+    };
+
+    const setNeedToFetchMem = () => {
+        dispatch(setNeedToFetchMemories(true));
+        dispatch(setNeedToFetchSharedMemories(true));
+    };
+
     if (loading) {
         return <DetailsSkeleton type="memory" />;
     }
@@ -134,6 +155,7 @@ const MemoryDetails = ({ userInfo }) => {
         shared_with,
         date,
         memory_space,
+        category,
     } = memoryDetails;
     const isOwner = userInfo.id === userID;
     const isMember = memory_space?.users.find((user) => user === userInfo.id);
@@ -176,6 +198,10 @@ const MemoryDetails = ({ userInfo }) => {
                             memory space
                         </p>
                     )}
+
+                    <div className="flex mt-2 flex-wrap">
+                        {renderMemoryTags()}
+                    </div>
                 </div>
             </div>
         );
@@ -189,6 +215,8 @@ const MemoryDetails = ({ userInfo }) => {
                         id={id}
                         title={title}
                         description={description}
+                        date={date}
+                        category={category}
                         type="memory"
                     />
                 )}

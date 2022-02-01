@@ -60,6 +60,11 @@ export const sharedMemoriesReducer = (state = INITIAL_STATE, action) => {
                     state.sharedMemories
                 ),
             };
+        case "SET_NEED_TO_FETCH_SHARED_MEMORIES":
+            return {
+                ...state,
+                needToFetch: action.payload,
+            };
         case "RESET_SHARED_MEMORIES":
             return { ...INITIAL_STATE };
         default:

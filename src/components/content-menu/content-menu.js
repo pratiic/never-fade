@@ -29,6 +29,8 @@ const ContentMenu = ({
     userInfo,
     type,
     image,
+    date,
+    category,
     showDropdownRedux,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -50,10 +52,10 @@ const ContentMenu = ({
     };
 
     const handleEditClick = () => {
-        const updateInfo = { id, description };
+        let updateInfo = { id, description };
 
         if (type === "memory") {
-            updateInfo.title = title;
+            updateInfo = { ...updateInfo, title, date, category };
             dispatch(setMemoryToUpdate(updateInfo));
             return navigate(`/memories/edit/${id}`);
         }

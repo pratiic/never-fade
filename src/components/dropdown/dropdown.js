@@ -8,7 +8,7 @@ const Dropdown = ({ children, show, position = "right", showDropdown }) => {
 
     return (
         <div
-            className={`absolute top-11 shadow-lg z-10 ${
+            className={`absolute top-11 shadow-lg z-20 ${
                 position === "right" ? "-right-1" : "left-1"
             }`}
         >

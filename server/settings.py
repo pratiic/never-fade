@@ -16,6 +16,7 @@ import django_heroku
 import dj_database_url
 import dotenv
 import os
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'api.apps.ApiConfig',
     'rest_framework',
     'corsheaders'
@@ -205,8 +208,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "build/static"
 ]
 
-MEDIA_ROOT = "static/images"
-
 WSGI_APPLICATION = "server.wsgi.application"
 
 # Default primary key field type
@@ -222,3 +223,11 @@ django_heroku.settings(locals())
 
 options = DATABASES["default"].get("OPTIONS", {})
 options.pop("sslmode", None)
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dufhakb5r',
+    'API_KEY': '898419963482389',
+    'API_SECRET': '1ZTlsSTSNSFEnWjUj6q_wtHOqo8'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
