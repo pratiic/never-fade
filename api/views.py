@@ -282,7 +282,7 @@ def share_memory(request, memory_id):
 def search_memory(request):
     query = request.query_params["query"]
     memories = Memory.objects.filter(
-        Q(title__icontains=query) | Q(description__icontains=query) | Q(date__icontains=query) | Q(category__icontains=query)).filter(Q(owner=request.user) | Q(memory_space__users__id=request.user.id))
+        Q(title__icontains=query) | Q(description__icontains=query) | Q(date__icontains=query) | Q(category__icontains=query)).filter(Q(owner=request.user) | Q(memory_space__users__id=request.user.id)).distinct()
     serializer = MemorySerializer(memories, many=True)
     return Response({"memories": serializer.data})
 
@@ -366,6 +366,7 @@ def create_memory_space(request):
         if serializer.is_valid():
             memory_space = serializer.save()
             memory_space.users.add(request.user)
+            memory_space.created_by = request.user
             memory_space.save()
 
             return Response({"memory_space": serializer.data}, status=201)

@@ -98,6 +98,9 @@ const Login = ({ userInfo }) => {
                     type="password"
                     changeHandler={setPassword}
                 />
+                <p className="text-blue link ml-1 mb-3 -mt-2">
+                    Forgot password ?
+                </p>
                 <button
                     type="submit"
                     className={`${

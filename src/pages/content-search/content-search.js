@@ -37,6 +37,7 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
             type === "memory" ? "memories" : "memory-spaces"
         }/search?query=${searchTerm}`;
         setLoading(true);
+        setSearchResults([]);
 
         try {
             const response = await fetch(link, {

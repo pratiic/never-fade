@@ -127,7 +127,7 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
         };
 
         return (
-            <FormContainer title="change your password">
+            <FormContainer title="change your password" backArrow={false}>
                 <form
                     className="w-60 400:w-72"
                     onSubmit={handlePasswordFormSubmit}
@@ -190,10 +190,10 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
                         changeHandler={setEmail}
                     />
                     <p
-                        className="text-blue text-lg -mt-2 cursor-pointer ml-1"
+                        className="link text-lg -mt-2 cursor-pointer ml-1"
                         onClick={handleChangePasswordClick}
                     >
-                        change password
+                        Change password
                     </p>
                     <button type="submit" className="form-button">
                         update

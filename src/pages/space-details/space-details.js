@@ -14,6 +14,7 @@ import { removeMemorySpace } from "../../redux/memory-spaces/memory-spaces.actio
 import { getDate } from "../../utils/utils.date-time";
 import { getErrorMessage } from "../../utils/utils.errors";
 import { addMembers } from "../../api/memory-spaces.api";
+import { capitalizeFirstLetter } from "../../utils/utils.strings";
 
 import Heading from "../../components/heading/heading";
 import ToggleList from "../../components/toggle-list/toggle-list";
@@ -21,7 +22,7 @@ import CardsList from "../../components/cards-list/cards-list";
 import ContentMenu from "../../components/content-menu/content-menu";
 import Status from "../../components/status/status";
 import DetailsSkeleton from "../../skeletons/details-skeleton/details-skeleton";
-import { capitalizeFirstLetter } from "../../utils/utils.strings";
+import ProfilePicture from "../../components/profile-picture/profile-picture";
 
 const SpaceDetails = ({ userInfo }) => {
     const [spaceDetails, setSpaceDetails] = useState({});
@@ -115,8 +116,15 @@ const SpaceDetails = ({ userInfo }) => {
         return null;
     }
 
-    const { name, description, created_at, users, memories, image } =
-        spaceDetails;
+    const {
+        name,
+        description,
+        created_at,
+        users,
+        memories,
+        image,
+        created_by,
+    } = spaceDetails;
 
     return (
         <div>
@@ -131,13 +139,37 @@ const SpaceDetails = ({ userInfo }) => {
                             type="memory space"
                         />
                     </Heading>
-                    <span className="text-grey-darker block -mt-2">
-                        {getDate(created_at)}
-                    </span>
-                    <div className="mt-3">
-                        {description && (
-                            <p className="content-description">{description}</p>
+                    <div>
+                        {created_by ? (
+                            <div className="flex items-center">
+                                <ProfilePicture
+                                    url={created_by.avatar}
+                                    username={created_by.username}
+                                />
+                                <div className="ml-3 leading-snug">
+                                    <p className="text-black capitalize text-lg">
+                                        {created_by.id === userInfo.id
+                                            ? "me"
+                                            : created_by.username}
+                                    </p>
+                                    <span className="text-grey-darker block">
+                                        memory space created on{" "}
+                                        {getDate(created_at)}
+                                    </span>
+                                </div>
+                            </div>
+                        ) : (
+                            <span className="text-grey-darker block">
+                                memory space created on {getDate(created_at)}
+                            </span>
                         )}
+                        <div className="mt-5">
+                            {description && (
+                                <p className="content-description">
+                                    {description}
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <ToggleList list={users}>

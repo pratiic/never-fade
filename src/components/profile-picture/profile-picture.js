@@ -14,15 +14,21 @@ const ProfilePicture = ({ url, username, size, rounded = true }) => {
     }
 
     return (
-        <img
-            src={
-                url ||
-                `https://avatars.dicebear.com/api/initials/${username}.svg`
-            }
-            className={`block ${
+        <div
+            className={`${
                 rounded ? "rounded-full" : "rounded"
-            } ${classNames} object-fit`}
-        />
+            } ${classNames} bg-grey`}
+        >
+            <img
+                src={
+                    url ||
+                    `https://avatars.dicebear.com/api/initials/${username}.svg`
+                }
+                className={`block h-full w-full object-cover ${
+                    rounded ? "rounded-full" : "rounded"
+                }`}
+            />
+        </div>
     );
 };
 

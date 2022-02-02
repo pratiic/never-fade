@@ -88,7 +88,7 @@
     }
 
     .link {
-        @apply text-blue hover:underline hover:underline-offset-1;
+        @apply text-blue cursor-pointer hover:underline hover:underline-offset-1;
     }
 
     .file-selector {
@@ -121,6 +121,10 @@
 
     .content-details {
         @apply grid grid-cols-details mb-7 gap-5 1000:grid-cols-details-medium;
+    }
+
+    .human {
+        @apply w-64 500:w-72;
     }
 }
 

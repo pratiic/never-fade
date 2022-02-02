@@ -77,6 +77,12 @@ module.exports = {
                 1000: "1000px",
                 1200: "1200px",
             },
+            height: {
+                3.5: "3.5rem",
+            },
+            spacing: {
+                3.5: "3.5rem",
+            },
         },
     },
     plugins: [],

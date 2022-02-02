@@ -4,8 +4,6 @@ import UserCard from "../user-card/user-card";
 import Status from "../status/status";
 import UserSkeleton from "../../skeletons/user-skeleton/user-skeleton";
 
-import { getSkeletons } from "../../utils/utils.skeletons";
-
 const UsersList = ({
     list,
     loading,
@@ -17,10 +15,14 @@ const UsersList = ({
         return <Status text={message} position={messagePosition} />;
     }
 
+    const skeletons = [1, 2, 3, 4, 5];
+
     return (
         <div>
             {loading
-                ? getSkeletons(<UserSkeleton />)
+                ? skeletons.map((skeleton) => {
+                      return <UserSkeleton key={skeleton} />;
+                  })
                 : list.map((user) => {
                       return (
                           <UserCard

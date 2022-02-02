@@ -5,12 +5,18 @@ import { capitalizeFirstLetter } from "../../utils/utils.strings";
 
 import BackArrow from "../back-arrow/back-arrow";
 
-const FormContainer = ({ title, subtitle, subtitleLink, children }) => {
+const FormContainer = ({
+    title,
+    subtitle,
+    subtitleLink,
+    backArrow = true,
+    children,
+}) => {
     return (
         <div className="flex flex-col items-center">
             <div className="mb-3">
                 <h3 className="flex items-center text-center text-3xl text-black">
-                    <BackArrow />
+                    {backArrow && <BackArrow />}
                     <div className="mr-3"></div>
                     {capitalizeFirstLetter(title)}
                 </h3>

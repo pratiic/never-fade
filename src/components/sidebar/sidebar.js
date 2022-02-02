@@ -39,7 +39,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         {
             title: "memories",
             icon: (
-                <BsImages className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+                <BsImages className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: ["/memories"],
             linkTo: "/memories",
@@ -48,7 +48,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         {
             title: "search",
             icon: (
-                <FiSearch className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+                <FiSearch className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: ["/search"],
             linkTo: "/search",
@@ -57,7 +57,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         {
             title: "shared",
             icon: (
-                <FiUsers className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+                <FiUsers className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: ["/memories/shared"],
             linkTo: "/memories/shared",
@@ -66,7 +66,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         {
             title: "spaces",
             icon: (
-                <FaSlideshare className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+                <FaSlideshare className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: ["/memory-spaces"],
             linkTo: "/memory-spaces",
@@ -75,7 +75,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         {
             title: "create",
             icon: (
-                <AiOutlinePlus className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+                <AiOutlinePlus className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: ["/memories/create", "/memory-spaces/create"],
             clickHandler: handleCreateClick,
@@ -84,7 +84,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         {
             title: "sign out",
             icon: (
-                <BiExit className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
+                <BiExit className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: [],
             clickHandler: handleLogoutClick,
@@ -117,14 +117,14 @@ const Sidebar = ({ sidebar: { full, show } }) => {
                 !full && "pt-7"
             } absolute -translate-x-full 850:static 850:translate-x-0 transition-all duration-100 z-40 ${
                 show && "translate-x-0"
-            }`}
+            } overflow-scroll`}
         >
             {links.map((link) => {
                 return (
                     <div
                         onClick={link.clickHandler && link.clickHandler}
                         className="w-full"
-                        key={link.linkTo}
+                        key={link.title}
                     >
                         <Link
                             to={link.linkTo || ""}
@@ -137,7 +137,11 @@ const Sidebar = ({ sidebar: { full, show } }) => {
                             }`}
                         >
                             {full && (
-                                <span className={"mr-3 capitalize text-lg"}>
+                                <span
+                                    className={
+                                        "mr-3 capitalize text-lg transition-all duration-100"
+                                    }
+                                >
                                     {link.title}
                                 </span>
                             )}

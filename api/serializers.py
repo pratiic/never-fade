@@ -57,6 +57,7 @@ class MemorySpaceSerializer (serializers.ModelSerializer):
 
 class MemorySpaceDetailsSerializer (MemorySpaceSerializer):
     users = UserSerializer(many=True)
+    created_by = UserSerializer(many = False)
 
     class Meta:
         model = MemorySpace

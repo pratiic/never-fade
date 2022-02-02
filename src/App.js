@@ -15,6 +15,7 @@ import Memories from "./pages/memories/memories";
 import Loading from "./pages/loading/loading";
 import Modal from "./components/modal/modal";
 import Welcome from "./pages/welcome/welcome";
+import NotFound from "./pages/not-found/not-found";
 const SharedMemories = lazy(() =>
     import("./pages/shared-memories/shared-memories")
 );
@@ -49,26 +50,25 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
     return (
         <div className="h-screen app" onClick={handleAppClick}>
             <HashRouter>
-                <div className="grid grid-rows-2 overflow-scroll h-full">
+                <div className="overflow-scroll h-full">
                     <Header />
                     <Modal />
-                    <div className="850:grid 850:grid-cols-2">
+                    <div className="850:grid 850:grid-cols-2 mt-3.5 h-[calc(100%-3.5rem)]">
                         {userInfo ? <Sidebar /> : <div></div>}
                         <div className="px-5 py-2 overflow-scroll 650:px-7 h-full">
-                            <Routes>
-                                <Route path="/login" element={<Login />} />
-                                <Route
-                                    path="/register"
-                                    element={<Register />}
-                                />
-                                <Route
-                                    path="/memories"
-                                    element={<Memories />}
-                                />
-                                <Route path="/" element={<Welcome />} />
-                            </Routes>
                             <Suspense fallback={<Loading />}>
                                 <Routes>
+                                    <Route path="*" element={<NotFound />} />
+                                    <Route path="/login" element={<Login />} />
+                                    <Route
+                                        path="/register"
+                                        element={<Register />}
+                                    />
+                                    <Route
+                                        path="/memories"
+                                        element={<Memories />}
+                                    />
+                                    <Route path="/" element={<Welcome />} />
                                     <Route path="/memories">
                                         <Route
                                             path="create"
@@ -135,6 +135,7 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                                             element={<AddMembers />}
                                         />
                                     </Route>
+                                    <Route element={<NotFound />} />
                                 </Routes>
                             </Suspense>
                         </div>

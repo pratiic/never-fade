@@ -40,13 +40,13 @@ const UserCard = ({
 
     return (
         <div
-            className={`flex items-center px-1 py-2 max-w-17 w-fit 400:max-w-20 500:max-w-25 cursor-pointer ${
+            className={`flex items-center px-1 py-2 max-w-20 500:max-w-25 cursor-pointer ${
                 border && "border-b border-grey"
             }`}
             onClick={handleUserClick}
         >
             <ProfilePicture url={avatar} username={username} size={size} />
-            <div className="ml-2 max-w-full">
+            <div className="ml-2 flex-1 truncate">
                 <p className="text-black text-lg">
                     {userInfo.id === id ? "me" : username}
                 </p>

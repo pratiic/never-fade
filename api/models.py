@@ -65,6 +65,7 @@ class MemorySpace (models.Model):
     image = models.ImageField(blank=True, null=True)
     users = models.ManyToManyField(
         User, blank=True, null=True, related_name="users")
+    created_by = models.ForeignKey(User, blank = True, null = True, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
