@@ -52,6 +52,10 @@ const ContentControl = ({
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = editMode ? `Edit ${type}` : `Create ${type}`;
+    }, []);
+
+    useEffect(() => {
         if (!userInfo) {
             return navigateToLogin();
         }
@@ -157,6 +161,8 @@ const ContentControl = ({
             });
             const data = await response.json();
 
+            console.log(data);
+
             if (response.status === 201) {
                 return handleFetchComplete(data);
             }
@@ -166,7 +172,6 @@ const ContentControl = ({
             //         `/memories/share/${data.memory.id}/?while-create=true`
             //     );
             // }
-
             setErrors(getErrors(data));
         } catch (error) {
             console.log(error);
@@ -242,6 +247,10 @@ const ContentControl = ({
                     <FileSelector
                         label={contentMemory ? "images" : "image"}
                         multiple={contentMemory}
+                        info={
+                            contentMemory &&
+                            "you can upload at most 15 images, 5 mb each at most"
+                        }
                     />
                 )}
                 {editMode && type === "memory space" && (

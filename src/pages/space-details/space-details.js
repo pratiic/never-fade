@@ -21,6 +21,7 @@ import CardsList from "../../components/cards-list/cards-list";
 import ContentMenu from "../../components/content-menu/content-menu";
 import Status from "../../components/status/status";
 import DetailsSkeleton from "../../skeletons/details-skeleton/details-skeleton";
+import { capitalizeFirstLetter } from "../../utils/utils.strings";
 
 const SpaceDetails = ({ userInfo }) => {
     const [spaceDetails, setSpaceDetails] = useState({});
@@ -33,6 +34,12 @@ const SpaceDetails = ({ userInfo }) => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (spaceDetails.name) {
+            document.title = capitalizeFirstLetter(spaceDetails.name);
+        }
+    }, [spaceDetails]);
 
     useEffect(() => {
         getSpaceDetails();
@@ -153,7 +160,7 @@ const SpaceDetails = ({ userInfo }) => {
                     </div>
                 </ToggleList>
             </div>
-            <Heading text="memories">
+            <Heading text="memories" backArrow={false}>
                 <Link to={`/memories/create/?memory-space=${id}`}>
                     <AiOutlinePlus className="icon ml-3" />
                 </Link>

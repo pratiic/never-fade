@@ -7,7 +7,10 @@ export const filesReducer = (state = INITIAL_STATE, action) => {
         case "SELECT_FILES":
             return {
                 ...state,
-                selectedFiles: [...state.selectedFiles, ...action.payload],
+                selectedFiles: [
+                    ...state.selectedFiles,
+                    ...action.payload,
+                ].slice(0, 14),
             };
         case "RESET_FILES":
             return { ...INITIAL_STATE };

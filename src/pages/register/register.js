@@ -26,7 +26,7 @@ const Register = ({ userInfo, selectedFiles }) => {
 
     useEffect(() => {
         if (userInfo) {
-            navigate("/");
+            navigate("/memories");
         }
     }, [userInfo]);
 

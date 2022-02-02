@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { AiOutlinePlus } from "react-icons/ai";
+import { HiPlus } from "react-icons/hi";
 
 import { getMemories } from "../../redux/memories/memories.actions";
 
@@ -34,9 +34,9 @@ const Memories = ({
 
     return (
         <div>
-            <Heading text="your memories">
-                <Link to="/memories/create" className="ml-3">
-                    <AiOutlinePlus className="icon" />
+            <Heading text="your memories" backArrow={false}>
+                <Link to="/memories/create" className="ml-5">
+                    <HiPlus className="icon" />
                 </Link>
             </Heading>
             <CardsList

@@ -14,6 +14,7 @@ import Register from "./pages/register/register";
 import Memories from "./pages/memories/memories";
 import Loading from "./pages/loading/loading";
 import Modal from "./components/modal/modal";
+import Welcome from "./pages/welcome/welcome";
 const SharedMemories = lazy(() =>
     import("./pages/shared-memories/shared-memories")
 );
@@ -60,7 +61,11 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                                     path="/register"
                                     element={<Register />}
                                 />
-                                <Route path="/" element={<Memories />} />
+                                <Route
+                                    path="/memories"
+                                    element={<Memories />}
+                                />
+                                <Route path="/" element={<Welcome />} />
                             </Routes>
                             <Suspense fallback={<Loading />}>
                                 <Routes>

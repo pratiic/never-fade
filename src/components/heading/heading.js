@@ -1,13 +1,18 @@
 import React from "react";
 
-const Heading = ({ text, spacebetween, size, children }) => {
+import BackArrow from "../back-arrow/back-arrow";
+
+const Heading = ({ text, spacebetween, size, backArrow = true, children }) => {
     return (
         <div
             className={`${size === "smaller" ? "heading-smaller" : "heading"} ${
                 spacebetween && "heading-space-between"
             }`}
         >
-            <h2>{text}</h2>
+            <div className="flex items-center">
+                {backArrow && <BackArrow />}
+                <h2>{text}</h2>
+            </div>
             {children}
         </div>
     );

@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.functions import Length
 from django.db.models import CharField
 from django.db.models.query_utils import Q
-from django.utils import timezone
+from PIL import Image as ImagePillow
+from django.db.models.signals import post_save
 
 CharField.register_lookup(Length, "length")
 
@@ -49,6 +50,10 @@ class Memory (models.Model):
 class Image (models.Model):
     memory = models.ForeignKey(Memory, on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add = True)
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self):
         return ""
@@ -67,3 +72,10 @@ class MemorySpace (models.Model):
 
     def __str__(self):
         return self.name
+
+# def compress_image (sender, **kwargs):
+#     if kwargs["created"]:
+#         with ImagePillow.open(kwargs["instance"].image.path) as image:
+#             image.save(kwargs["instance"].image.path, optimize = True, quality = 50)
+
+# post_save.connect(compress_image, sender = Image)

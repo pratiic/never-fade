@@ -104,7 +104,7 @@
     }
 
     .content-description {
-        @apply text-lg py-1 border border-grey px-2 w-fit rounded-sm;
+        @apply text-lg py-1 border border-grey px-2 w-fit rounded-sm whitespace-pre-wrap leading-snug;
     }
 
     .top-rounded {

@@ -6,6 +6,10 @@ export const getErrors = (data) => {
     }
 
     if (data.errors) {
+        if (Array.isArray(data.errors)) {
+            data.errors = data.errors[0];
+        }
+
         Object.keys(data.errors).forEach((key) => {
             errorsArr = [...errorsArr, `${key}: ${data.errors[key][0]}`];
         });

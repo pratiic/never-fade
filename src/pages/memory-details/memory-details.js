@@ -28,7 +28,7 @@ import Status from "../../components/status/status";
 import DetailsSkeleton from "../../skeletons/details-skeleton/details-skeleton";
 import Tag from "../../components/tag/tag";
 
-const MemoryDetails = ({ userInfo }) => {
+const MemoryDetails = ({ userInfo, memories, sharedMemories }) => {
     const [memoryDetails, setMemoryDetails] = useState({});
     const [memoryImages, setMemoryImages] = useState([]);
     const [error, setError] = useState("");
@@ -38,6 +38,12 @@ const MemoryDetails = ({ userInfo }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (memoryDetails.title) {
+            document.title = capitalizeFirstLetter(memoryDetails.title);
+        }
+    }, [memoryDetails]);
 
     useEffect(() => {
         if (!userInfo) {
@@ -80,7 +86,7 @@ const MemoryDetails = ({ userInfo }) => {
     };
 
     const addMemoryImages = (images) => {
-        setMemoryImages([...memoryImages, ...images]);
+        setMemoryImages([...images, ...memoryImages]);
         setNeedToFetchMem();
     };
 
@@ -103,8 +109,6 @@ const MemoryDetails = ({ userInfo }) => {
                 true,
                 userInfo.token
             );
-
-            console.log(data);
 
             if (data.memory) {
                 setMemoryDetails(data.memory);
@@ -131,8 +135,24 @@ const MemoryDetails = ({ userInfo }) => {
     };
 
     const setNeedToFetchMem = () => {
-        dispatch(setNeedToFetchMemories(true));
-        dispatch(setNeedToFetchSharedMemories(true));
+        const memoryID = Number(id);
+
+        const memInMemories = memories.find((memory) => memory.id === memoryID);
+        const memInSharedMemories = sharedMemories.find(
+            (sharedMemory) => sharedMemory.id === memoryID
+        );
+
+        if (memInMemories) {
+            // dispatch({
+            //     type: "MEMORY_UPDATE_SUCCESS",
+            //     payload: { ...memInMemories },
+            // });
+            dispatch(setNeedToFetchMemories(true));
+        }
+
+        if (memInSharedMemories) {
+            dispatch(setNeedToFetchSharedMemories(true));
+        }
     };
 
     if (loading) {
@@ -277,6 +297,8 @@ const MemoryDetails = ({ userInfo }) => {
 const mapStateToProps = (state) => {
     return {
         userInfo: state.currentUser.userInfo,
+        memories: state.memories.memories,
+        sharedMemories: state.sharedMemories.sharedMemories,
     };
 };
 

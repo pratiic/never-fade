@@ -41,8 +41,8 @@ const Sidebar = ({ sidebar: { full, show } }) => {
             icon: (
                 <BsImages className="sidebar-icon group-hover:text-primary transition-all ease-in duration-100" />
             ),
-            activeLinks: ["/"],
-            linkTo: "/",
+            activeLinks: ["/memories"],
+            linkTo: "/memories",
             active: false,
         },
         {

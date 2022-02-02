@@ -85,24 +85,31 @@ const ImagesList = ({
 
     return (
         <div>
-            <Heading text="images">
-                {canAdd && (
-                    <button
-                        className="button-secondary-small ml-5"
-                        onClick={toggleImagesAdder}
-                    >
-                        {showAdder ? (
-                            <React.Fragment>
-                                cancel <RiCloseFill className="ml-2 h-5 w-5" />
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                add images{" "}
-                                <AiOutlinePlus className="ml-2 h-5 w-5" />
-                            </React.Fragment>
-                        )}
-                    </button>
-                )}
+            <Heading text="images" backArrow={false}>
+                {canAdd ? (
+                    images.length < 15 ? (
+                        <button
+                            className="button-secondary-small ml-5"
+                            onClick={toggleImagesAdder}
+                        >
+                            {showAdder ? (
+                                <React.Fragment>
+                                    cancel{" "}
+                                    <RiCloseFill className="ml-2 h-5 w-5" />
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
+                                    add images{" "}
+                                    <AiOutlinePlus className="ml-2 h-5 w-5" />
+                                </React.Fragment>
+                            )}
+                        </button>
+                    ) : (
+                        <button className="button-secondary-small ml-5 pointer-events-none">
+                            added max (15)
+                        </button>
+                    )
+                ) : null}
             </Heading>
             <div className="mb-5"></div>
 
@@ -113,6 +120,7 @@ const ImagesList = ({
                             addMemoryImages(images);
                             setShowAdder(false);
                         }}
+                        imageCount={images.length}
                     />
                     <div className="mb-5"></div>
                 </React.Fragment>

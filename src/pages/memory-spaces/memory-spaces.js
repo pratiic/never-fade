@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
-import { FiSearch } from "react-icons/fi";
+import { HiPlus } from "react-icons/hi";
 
 import { getMemorySpaces } from "../../redux/memory-spaces/memory-spaces.actions";
 import { setSearchType } from "../../redux/search/search.actions";
@@ -18,6 +17,10 @@ const MemorySpaces = ({
     const memorySpacesMessage = "you are not a member of any memory spaces";
 
     useEffect(() => {
+        document.title = "Memory spaces";
+    }, []);
+
+    useEffect(() => {
         if (needToFetch) {
             dispatch(getMemorySpaces());
         }
@@ -31,15 +34,9 @@ const MemorySpaces = ({
     return (
         <div>
             <Heading text="memory spaces">
-                <div className="flex items-center">
-                    <Link to="/memory-spaces/create" className="ml-5">
-                        <AiOutlinePlus className="icon" />
-                    </Link>
-                    <FiSearch
-                        className="icon ml-3"
-                        onClick={handleSearchClick}
-                    />
-                </div>
+                <Link to="/memory-spaces/create" className="ml-5">
+                    <HiPlus className="icon" />
+                </Link>
             </Heading>
             <CardsList
                 list={memorySpaces}

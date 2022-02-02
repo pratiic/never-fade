@@ -180,7 +180,7 @@ def create_memory(request):
             for image in images:
                 images_to_serialize.append({ "image": image, "memory": memory.id })
 
-            image_serializer = ImageSerializer(data = images_to_serialize, many = True)
+            image_serializer = ImageSerializer(data = images_to_serialize[:14], many = True)
 
             if image_serializer.is_valid():
                 image_serializer.save()
@@ -320,7 +320,7 @@ def add_images(request, memory_id):
         for image in images:
             images_to_serialize.append({ "image": image, "memory": memory.id })
 
-        serializer = ImageSerializer(data = images_to_serialize, many = True)
+        serializer = ImageSerializer(data = images_to_serialize[:14], many = True)
 
         if serializer.is_valid():
             serializer.save()
@@ -360,6 +360,7 @@ def delete_image(request, image_id):
 @ permission_classes([IsAuthenticated])
 def create_memory_space(request):
     serializer = MemorySpaceSerializer(data=request.data, many=False)
+
 
     try:
         if serializer.is_valid():

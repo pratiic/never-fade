@@ -28,7 +28,7 @@ const InputGroup = forwardRef(
                         placeholder={placeholder}
                         value={value}
                         onChange={(event) => changeHandler(event.target.value)}
-                        className={`${inputClassName} h-40 pt-1`}
+                        className={`${inputClassName} h-40 pt-1 leading-5`}
                     ></textarea>
                 ) : (
                     <input

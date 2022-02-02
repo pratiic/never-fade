@@ -50,7 +50,7 @@ const AddMembers = ({ userInfo, selectedUsers, memorySpaces }) => {
 
     return (
         <div>
-            <Heading text="add members" spacebetween>
+            <Heading text="add members" spacebetween backArrow={!whileCreate}>
                 <button
                     className="button-secondary"
                     onClick={handleButtonClick}

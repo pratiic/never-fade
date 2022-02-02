@@ -94,7 +94,7 @@ const ContentMenu = ({
                 if (type === "memory") {
                     dispatch(removeMemory(Number(id)));
                     dispatch(removeSharedMemory(Number(id)));
-                    return navigate("/");
+                    return navigate("/memories");
                 }
 
                 dispatch(removeMemorySpace(Number(id)));

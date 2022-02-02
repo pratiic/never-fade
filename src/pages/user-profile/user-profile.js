@@ -26,6 +26,10 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        document.title = "Your profile";
+    }, []);
+
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 

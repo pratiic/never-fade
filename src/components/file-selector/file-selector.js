@@ -3,9 +3,18 @@ import { CgImage } from "react-icons/cg";
 
 import { selectFile } from "../../redux/files/files.actions";
 
+import { capitalizeFirstLetter } from "../../utils/utils.strings";
+
 import { connect, useDispatch } from "react-redux";
 
-const FileSelector = ({ label, selectedFiles, multiple, full, preview }) => {
+const FileSelector = ({
+    label,
+    selectedFiles,
+    multiple,
+    full,
+    preview,
+    info,
+}) => {
     const dispatch = useDispatch();
     const inputRef = useRef();
 
@@ -15,7 +24,7 @@ const FileSelector = ({ label, selectedFiles, multiple, full, preview }) => {
 
     return (
         <div>
-            <label className="form-label">{label}</label>
+            <label className="form-label">{capitalizeFirstLetter(label)}</label>
             {preview && <img src={preview} className="rounded mb-3 block" />}
             <div>
                 <input
@@ -36,6 +45,11 @@ const FileSelector = ({ label, selectedFiles, multiple, full, preview }) => {
                     {multiple ? "images" : "image"}
                 </button>
             </div>
+            {info && (
+                <label className="text-grey-darker pl-1 -mt-2 block mb-3">
+                    {capitalizeFirstLetter(info)}
+                </label>
+            )}
             {selectedFiles.length > 0 && (
                 <div className="-mt-1 mb-3">
                     {selectedFiles.map((selectedFile, index) => {

@@ -65,7 +65,11 @@ const ShareMemory = ({
 
     return (
         <div>
-            <Heading text="Share your memory" spacebetween>
+            <Heading
+                text="Share your memory"
+                spacebetween
+                backArrow={!whileCreate}
+            >
                 <button
                     className="button-secondary"
                     onClick={navigateToRedirect}
