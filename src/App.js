@@ -34,6 +34,10 @@ const ContentSearch = lazy(() =>
 const AddMembers = lazy(() => import("./pages/add-members/add-members"));
 const UserProfile = lazy(() => import("./pages/user-profile/user-profile"));
 const ResetAccount = lazy(() => import("./pages/reset-account/reset-account"));
+const SendCode = lazy(() => import("./pages/send-code/send-code"));
+const ResetPassword = lazy(() =>
+    import("./pages/reset-password/reset-password")
+);
 
 const App = ({ userInfo, showDropdown, showSidebar }) => {
     const dispatch = useDispatch();
@@ -137,8 +141,12 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                                         />
                                     </Route>
                                     <Route
-                                        path="/reset-account"
-                                        element={<ResetAccount />}
+                                        path="/send-code"
+                                        element={<SendCode />}
+                                    />
+                                    <Route
+                                        path="/reset-password"
+                                        element={<ResetPassword />}
                                     />
                                     <Route element={<NotFound />} />
                                 </Routes>

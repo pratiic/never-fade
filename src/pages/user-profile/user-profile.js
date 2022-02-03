@@ -34,8 +34,8 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append("username", username);
-        formData.append("email", email);
+        formData.append("username", username.trim());
+        formData.append("email", email.trim());
 
         if (selectedFiles.length > 0) {
             formData.append("avatar", selectedFiles[0]);
@@ -107,8 +107,8 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
                             Authorization: `Bearer ${userInfo.token}`,
                         },
                         body: JSON.stringify({
-                            current_password: currentPassword,
-                            new_password: newPassword,
+                            current_password: currentPassword.trim(),
+                            new_password: newPassword.trim(),
                         }),
                     }
                 );

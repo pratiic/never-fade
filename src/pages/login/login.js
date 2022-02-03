@@ -54,7 +54,10 @@ const Login = ({ userInfo }) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({
+                    email: email.trim(),
+                    password: password.trim(),
+                }),
             });
             const data = await response.json();
 
@@ -99,7 +102,7 @@ const Login = ({ userInfo }) => {
                     changeHandler={setPassword}
                 />
                 <Link
-                    to="/reset-account"
+                    to="/send-code"
                     className="text-blue link ml-1 mb-3 -mt-2 block text-lg"
                 >
                     Forgot password ?

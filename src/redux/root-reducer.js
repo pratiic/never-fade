@@ -10,6 +10,7 @@ import { searchReducer } from "./search/search.reducer";
 import { dropdownReducer } from "./dropdown/dropdown.reducer";
 import { modalReducer } from "./modal/modal.reducer";
 import { sidebarReducer } from "./sidebar/sidebar.reducer";
+import { accountReducer } from "./account/account.reducer";
 
 export default combineReducers({
     currentUser: currentUserReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
     dropdown: dropdownReducer,
     modal: modalReducer,
     sidebar: sidebarReducer,
+    account: accountReducer,
 });

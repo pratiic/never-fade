@@ -48,9 +48,9 @@ const Register = ({ userInfo, selectedFiles }) => {
         }
 
         const formData = new FormData();
-        formData.append("username", username);
-        formData.append("email", email);
-        formData.append("password", password);
+        formData.append("username", username.trim());
+        formData.append("email", email.trim());
+        formData.append("password", password.trim());
 
         if (selectedFiles.length > 0) {
             formData.append("avatar", selectedFiles[0]);
