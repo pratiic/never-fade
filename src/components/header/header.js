@@ -18,7 +18,7 @@ const Header = ({ userInfo }) => {
     };
 
     return (
-        <div className="flex justify-between items-center px-5 border-b border-grey fixed w-full 650:px-7 h-3.5">
+        <div className="flex justify-between items-center px-5 border-b border-grey fixed w-full 650:px-7 h-3.5 bg-white">
             <div className="flex items-center">
                 {userInfo && (
                     <FiMenu

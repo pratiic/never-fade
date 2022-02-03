@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import get_memories, get_shared_memories, create_memory, edit_memory, search_memory, get_memory_details, MyTokenObtainPairView, get_user_profile, register, search_user, update_user, share_memory, delete_memory, delete_image, add_images, create_memory_space, get_memory_spaces, get_memory_space_details, edit_memory_space, delete_memory_space, search_memory_space, add_memory_space_members, change_user_password
+from .views import get_memories, get_shared_memories, create_memory, edit_memory, search_memory, get_memory_details, MyTokenObtainPairView, get_user_profile, register, search_user, update_user, share_memory, delete_memory, delete_image, add_images, create_memory_space, get_memory_spaces, get_memory_space_details, edit_memory_space, delete_memory_space, search_memory_space, add_memory_space_members, change_user_password, get_password_reset_code, reset_user_password
 
 urlpatterns = [
     path("users/login/", MyTokenObtainPairView.as_view(),
@@ -11,6 +11,8 @@ urlpatterns = [
     path("users/update/<int:user_id>/", update_user, name="update-user"),
     path("users/change-password/<int:user_id>/",
          change_user_password, name="change-user-password"),
+     path("users/get-reset-code/<str:user_email>/", get_password_reset_code, name = "get-reset-code"),
+     path("users/reset-password/", reset_user_password, name = "reset-user-password"),
     path("memories/", get_memories, name="get-memories"),
     path("memories/<int:memory_id>/",
          get_memory_details, name="get-memory-details"),

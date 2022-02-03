@@ -41,7 +41,7 @@ const InputGroup = forwardRef(
                     />
                 )}
                 {info && (
-                    <label className="block text-grey-darker pl-1">
+                    <label className="block text-grey-darker pl-1 leading-snug mt-1">
                         {" "}
                         {capitalizeFirstLetter(info)}{" "}
                     </label>

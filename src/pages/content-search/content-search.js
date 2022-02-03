@@ -27,7 +27,7 @@ const ContentSearch = ({ userInfo, search: { options } }) => {
             `${
                 type === "memory"
                     ? "memories that you have created or been shared or part of your memory spaces"
-                    : "memory spaces that you are a part of"
+                    : "memory spaces that you are a member of"
             } will appear here`
         );
     }, [type]);

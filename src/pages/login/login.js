@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, connect } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 import { setCurrentUser } from "../../redux/current-user/current-user.actions";
 
@@ -98,9 +98,12 @@ const Login = ({ userInfo }) => {
                     type="password"
                     changeHandler={setPassword}
                 />
-                <p className="text-blue link ml-1 mb-3 -mt-2">
+                <Link
+                    to="/reset-account"
+                    className="text-blue link ml-1 mb-3 -mt-2 block text-lg"
+                >
                     Forgot password ?
-                </p>
+                </Link>
                 <button
                     type="submit"
                     className={`${

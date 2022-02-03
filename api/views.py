@@ -7,7 +7,9 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status
-from dateutil import parser
+from django.core.mail import EmailMessage
+from django.conf import settings
+import random
 
 from .models import Memory, User, Image, MemorySpace
 from .serializers import MemorySerializer, UserSerializer, UserSerializerWithToken, ImageSerializer, MemoryDetailsSerializer, MemorySpaceSerializer, MemorySpaceDetailsSerializer
@@ -40,7 +42,12 @@ def register(request):
             user.password = make_password(user.password)
             user.save()
 
-            return Response({"user": serializer.data})
+            try:
+                send_email("welcome to never fade", f"Hey {user.username}, welcome to never fade", user.email)
+            except:
+                pass
+            finally:
+                return Response({"user": serializer.data})
         else:
             return Response({"errors": serializer.errors})
     except:
@@ -117,6 +124,57 @@ def change_user_password(request, user_id):
             return Response({"errors": serializer.errors})
     else:
         return Response({"error": "the current password is incorrect"})
+
+
+@api_view(["PATCH"])
+def get_password_reset_code (request, user_email):
+    user = None
+
+    try:
+        user = User.objects.get(email = user_email)
+    except:
+        return Response({ "error": "not found" }, status = 404)
+
+    try:
+        reset_code = random.randint(1000, 9999)
+        user.reset_code = reset_code
+
+        try:
+            send_email("reset your password", f"The code to reset your password is { reset_code }", user_email)
+            user.save()
+        except:
+            return Response({}, status = 400)
+
+        return Response({})
+    except:
+        return Response({}, status = 400)
+
+
+@api_view(["PATCH"])
+def reset_user_password (request):
+    user = None
+
+    try:
+        try:
+            user = User.objects.get(email = request.data.get("email"))
+        except:
+            return Response({ "error": "not found" }, status = 404)
+
+        if user.reset_code != int(request.data.get("reset_code")):
+            return Response({ "error": "invalid code" }, status = 400)
+            
+        serializer = UserSerializer(user, data = { "password": request.data.get("new_password") }, partial = True)
+        
+        if serializer.is_valid():
+            user.password = make_password(request.data.get("new_password"))
+            user.reset_code = None
+            user.save()
+
+            return Response({})
+        
+        return Response({ "errors": serializer.errors }, status = 400)
+    except:
+        return Response({}, status = 400)
 
 
 @api_view(["GET"])
@@ -480,3 +538,13 @@ def add_memory_space_members(request, memory_space_id):
     serializer = MemorySpaceDetailsSerializer(memory_space)
 
     return Response({"memory_space": serializer.data})
+
+def send_email (subject, body, recepient):
+    email = EmailMessage(
+                subject,
+                body,
+                settings.EMAIL_HOST_USER,
+                [recepient]
+            )
+    email.fail_silently = False
+    email.send()

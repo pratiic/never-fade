@@ -16,6 +16,7 @@ class User (AbstractUser):
     email = models.EmailField(unique=True)
     avatar = models.ImageField(blank=True, null=True)
     password = models.CharField(max_length=100)
+    reset_code = models.IntegerField(blank = True, null = True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
