@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 
-const Welcome = ({ userInfo }) => {
+const Welcome = ({ userInfo, memoriesPage }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -11,7 +11,7 @@ const Welcome = ({ userInfo }) => {
 
     useEffect(() => {
         if (userInfo) {
-            navigate("/memories");
+            navigate(`/memories/?page=${memoriesPage || 1}`);
         }
     }, []);
 
@@ -31,6 +31,7 @@ const Welcome = ({ userInfo }) => {
 const mapStateToProps = (state) => {
     return {
         userInfo: state.currentUser.userInfo,
+        memoriesPage: state.memories.page,
     };
 };
 
