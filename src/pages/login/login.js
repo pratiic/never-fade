@@ -83,8 +83,8 @@ const Login = ({ userInfo }) => {
 
     return (
         <FormContainer
-            title="Login to never fade"
-            subtitle="Do not have an account ?"
+            title="login to Never Fade"
+            subtitle="do not have an account ?"
             subtitleLink="register"
         >
             <form onSubmit={handleFormSubmit} className="w-72">

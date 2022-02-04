@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
@@ -8,7 +8,7 @@ import { toggleSidebar } from "../../redux/sidebar/sidebar.actions";
 import Logo from "../logo/logo";
 import ProfilePreview from "../profile-preview/profile-preview";
 
-const Header = ({ userInfo }) => {
+const Header = memo(({ userInfo }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Header = ({ userInfo }) => {
             </div>
         </div>
     );
-};
+});
 
 const mapStateToProps = (state) => {
     return {

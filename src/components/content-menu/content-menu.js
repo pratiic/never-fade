@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import {
     removeMemory,
     setMemoryToUpdate,
+    setNeedToFetch as setNeedToFetchMemories,
 } from "../../redux/memories/memories.actions";
 import {
     removeMemorySpace,
     setMemorySpaceToUpdate,
+    setNeedToFetch as setNeedToFetchSpaces,
 } from "../../redux/memory-spaces/memory-spaces.actions";
 import { toggleDropdown as toggleDropdownRedux } from "../../redux/dropdown/dropdown.actions";
 import {
@@ -17,7 +19,10 @@ import {
     showConfirmationModal,
     showLoadingModal,
 } from "../../redux/modal/modal.actions";
-import { removeSharedMemory } from "../../redux/shared-memories/shared-memories.actions";
+import {
+    removeSharedMemory,
+    setNeedToFetch as setNeedToFetchSharedMemories,
+} from "../../redux/shared-memories/shared-memories.actions";
 
 import Dropdown from "../dropdown/dropdown";
 import DropdownItem from "../dropdown-item/dropdown-item";
@@ -92,12 +97,15 @@ const ContentMenu = ({
 
             if (response.status === 200) {
                 if (type === "memory") {
-                    dispatch(removeMemory(Number(id)));
-                    dispatch(removeSharedMemory(Number(id)));
+                    dispatch(setNeedToFetchMemories(true));
+                    dispatch(setNeedToFetchSharedMemories(true));
+                    // dispatch(removeMemory(Number(id)));
+                    // dispatch(removeSharedMemory(Number(id)));
                     return navigate("/memories");
                 }
 
-                dispatch(removeMemorySpace(Number(id)));
+                // dispatch(removeMemorySpace(Number(id)));
+                dispatch(setNeedToFetchSpaces(true));
                 navigate("/memory-spaces");
             }
         } catch (error) {

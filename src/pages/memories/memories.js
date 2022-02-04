@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 
-import { getMemories } from "../../redux/memories/memories.actions";
+import { getMemories, setPage } from "../../redux/memories/memories.actions";
 
 import CardsList from "../../components/cards-list/cards-list";
 import Heading from "../../components/heading/heading";
 
 const Memories = ({
     userInfo,
-    memories: { memories, loading, needToFetch },
+    memories: { memories, loading, needToFetch, hasNext, page, hasPrev },
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const memoriesMessage = "looks like you have not created any memories";
+    const queryPage = Number(location.search.split("=")[1]);
 
     useEffect(() => {
         document.title = "Your memories";
@@ -27,10 +29,22 @@ const Memories = ({
     }, [userInfo]);
 
     useEffect(() => {
-        if (needToFetch) {
+        if (needToFetch && page) {
             dispatch(getMemories());
         }
-    }, [needToFetch]);
+    }, [needToFetch, page]);
+
+    useEffect(() => {
+        if (queryPage > 0) {
+            return dispatch(setPage(queryPage, queryPage !== page));
+        }
+
+        navigateToPage(page || 1);
+    }, [queryPage]);
+
+    const navigateToPage = (page) => {
+        navigate(`/memories/?page=${page}`);
+    };
 
     return (
         <div>
@@ -44,6 +58,11 @@ const Memories = ({
                 message={memoriesMessage}
                 loading={loading}
                 link={{ title: "create memory", linkTo: "/memories/create" }}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
+                page={page}
+                fetchNextInitiator={() => navigateToPage(page + 1)}
+                fetchPrevInitiator={() => navigateToPage(page - 1)}
             />
         </div>
     );

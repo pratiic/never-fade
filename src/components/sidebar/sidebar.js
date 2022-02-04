@@ -17,7 +17,7 @@ import {
 import SidebarIcon from "../sidebar-icon/sidebar-icon";
 import ContentOptions from "../content-options/content-options";
 
-const Sidebar = ({ sidebar: { full, show } }) => {
+const Sidebar = ({ sidebar: { full, show }, memoriesPage }) => {
     const handleCreateClick = () => {
         dispatch(showModal(<ContentOptions />));
     };
@@ -42,7 +42,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
                 <BsImages className="sidebar-icon group-active:text-grey-darker" />
             ),
             activeLinks: ["/memories"],
-            linkTo: "/memories",
+            linkTo: `/memories`,
             active: false,
         },
         {
@@ -59,8 +59,8 @@ const Sidebar = ({ sidebar: { full, show } }) => {
             icon: (
                 <FiUsers className="sidebar-icon group-active:text-grey-darker" />
             ),
-            activeLinks: ["/memories/shared"],
-            linkTo: "/memories/shared",
+            activeLinks: ["shared-memories"],
+            linkTo: "/shared-memories",
             active: false,
         },
         {
@@ -99,8 +99,8 @@ const Sidebar = ({ sidebar: { full, show } }) => {
         setLinks(
             links.map((link) => {
                 if (
-                    link.activeLinks.find(
-                        (activeLink) => location.pathname === activeLink
+                    link.activeLinks.find((activeLink) =>
+                        location.pathname.includes(activeLink)
                     )
                 ) {
                     return { ...link, active: true };
@@ -160,6 +160,7 @@ const Sidebar = ({ sidebar: { full, show } }) => {
 const mapStateToProps = (state) => {
     return {
         sidebar: state.sidebar,
+        memoriesPage: state.memories.page,
     };
 };
 

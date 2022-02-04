@@ -21,7 +21,6 @@ const ShareMemory = ({
     const navigate = useNavigate();
     const location = useLocation();
     const whileCreate = location.search.split("=")[1];
-    const redirect = whileCreate ? "/" : `/memories/${id}`;
     const activeOption = options.find((option) => option.active);
 
     useEffect(() => {
@@ -51,16 +50,12 @@ const ShareMemory = ({
                 }
 
                 dispatch(unselectAllUsers());
-                return navigateToRedirect();
+                return navigate(`/memories/${id}`);
             }
         } catch (error) {
         } finally {
             dispatch(closeModal());
         }
-    };
-
-    const navigateToRedirect = () => {
-        navigate(redirect);
     };
 
     return (
@@ -72,7 +67,7 @@ const ShareMemory = ({
             >
                 <button
                     className="button-secondary"
-                    onClick={navigateToRedirect}
+                    onClick={() => navigate(`/memories/${id}`)}
                 >
                     {whileCreate ? "no thanks" : "cancel"}
                 </button>

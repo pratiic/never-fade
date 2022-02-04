@@ -8,16 +8,27 @@ const INITIAL_STATE = {
     memoryUpdateErrors: [],
     memoryToUpdate: {},
     needToFetch: true,
+    page: 0,
+    hasNext: false,
+    hasPrev: false,
+    // fetchingNext: false,
 };
 
 export const memoriesReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case "MEMORIES_REQUEST":
-            return { ...state, loading: true };
+            return {
+                ...state,
+                loading: true,
+                // fetchingNext: state.page > 1,
+            };
         case "MEMORIES_SUCCESS":
             return {
                 ...INITIAL_STATE,
-                memories: action.payload,
+                page: state.page,
+                memories: action.payload.memories,
+                hasNext: action.payload.hasNext,
+                hasPrev: action.payload.hasPrev,
                 needToFetch: false,
             };
         case "MEMORIES_FAILURE":
@@ -40,11 +51,23 @@ export const memoriesReducer = (state = INITIAL_STATE, action) => {
         case "SET_MEMORY_TO_UPDATE":
             return { ...state, memoryToUpdate: action.payload };
         case "SET_NEED_TO_FETCH_MEMORIES":
-            return { ...state, needToFetch: action.payload };
+            return { ...state, needToFetch: action.payload, page: 1 };
         case "REMOVE_MEMORY":
             return {
                 ...state,
                 memories: removeArrItem(action.payload, state.memories),
+            };
+        case "CONTROL_MEMORY_PAGE":
+            return {
+                ...state,
+                page: action.payload ? state.page + 1 : state.page - 1,
+                needToFetch: true,
+            };
+        case "SET_MEMORY_PAGE":
+            return {
+                ...state,
+                page: action.payload.page,
+                needToFetch: action.payload.needToFetch,
             };
         case "RESET_MEMORIES":
             return { ...INITIAL_STATE };

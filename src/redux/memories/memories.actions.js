@@ -7,17 +7,27 @@ export const getMemories = () => {
         dispatch({ type: "MEMORIES_REQUEST" });
 
         try {
-            const response = await fetch("/api/memories", {
-                headers: {
-                    Authorization: `Bearer ${
-                        getState().currentUser.userInfo.token
-                    }`,
-                },
-            });
+            const response = await fetch(
+                `/api/memories/?page=${getState().memories.page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${
+                            getState().currentUser.userInfo.token
+                        }`,
+                    },
+                }
+            );
             const data = await response.json();
 
             if (data.memories) {
-                dispatch({ type: "MEMORIES_SUCCESS", payload: data.memories });
+                dispatch({
+                    type: "MEMORIES_SUCCESS",
+                    payload: {
+                        memories: data.memories,
+                        hasNext: data.has_next,
+                        hasPrev: data.has_prev,
+                    },
+                });
             }
         } catch (error) {
             console.log(error);
@@ -112,6 +122,26 @@ export const removeMemory = (id) => {
     return {
         type: "REMOVE_MEMORY",
         payload: id,
+    };
+};
+
+export const incrementPage = () => {
+    return {
+        type: "INCREMENT_MEMORIES_PAGE",
+    };
+};
+
+export const controlPage = (increase = true) => {
+    return {
+        type: "CONTROL_MEMORY_PAGE",
+        payload: increase,
+    };
+};
+
+export const setPage = (page, needToFetch = false) => {
+    return {
+        type: "SET_MEMORY_PAGE",
+        payload: { page, needToFetch },
     };
 };
 

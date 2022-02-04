@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
     getSharedMemories,
+    setPage,
     setSharedMemoriesType,
 } from "../../redux/shared-memories/shared-memories.actions";
 
@@ -12,15 +13,26 @@ import OptionsToggler from "../../components/options-toggler/options-toggler";
 import Heading from "../../components/heading/heading";
 
 const SharedMemories = ({
-    sharedMemories: { sharedMemories, loading, type, options, needToFetch },
+    sharedMemories: {
+        sharedMemories,
+        loading,
+        type,
+        options,
+        needToFetch,
+        hasNext,
+        hasPrev,
+        page,
+    },
     userInfo,
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const sharedMemoriesMessage =
         type === "with me"
             ? "no one has shared any memories with you"
             : "you have not shared any memories";
+    const queryPage = Number(location.search.split("=")[1]);
 
     useEffect(() => {
         if (!userInfo) {
@@ -29,17 +41,30 @@ const SharedMemories = ({
     }, []);
 
     useEffect(() => {
-        if (needToFetch) {
+        if (needToFetch && page) {
             dispatch(getSharedMemories(type));
         }
-    }, [needToFetch]);
+    }, [needToFetch, page]);
+
+    useEffect(() => {
+        if (queryPage > 0) {
+            return dispatch(setPage(queryPage, queryPage !== page));
+        }
+
+        navigateToPage(page || 1);
+    }, [queryPage]);
 
     useEffect(() => {
         document.title = "Shared memories";
     }, []);
 
     const toggleHandler = (option) => {
+        navigateToPage(1);
         dispatch(setSharedMemoriesType(option.title));
+    };
+
+    const navigateToPage = (page) => {
+        navigate(`/shared-memories/?page=${page}`);
     };
 
     return (
@@ -60,6 +85,11 @@ const SharedMemories = ({
                 list={sharedMemories}
                 message={sharedMemoriesMessage}
                 loading={loading}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
+                page={page}
+                fetchNextInitiator={() => navigateToPage(page + 1)}
+                fetchPrevInitiator={() => navigateToPage(page - 1)}
             />
         </div>
     );

@@ -26,6 +26,8 @@ const ContentControl = ({
     type,
     memorySpaceToUpdate,
     memorySpaceUpdateErrors,
+    memoriesPage,
+    spacesPage,
 }) => {
     const contentToUpdate =
         type === "memory space" ? memorySpaceToUpdate : memoryToUpdate;
@@ -161,8 +163,6 @@ const ContentControl = ({
             });
             const data = await response.json();
 
-            console.log(data);
-
             if (response.status === 201) {
                 return handleFetchComplete(data);
             }
@@ -183,17 +183,21 @@ const ContentControl = ({
 
     const handleFetchComplete = (data) => {
         if (contentMemory) {
-            dispatch(addMemory(data.memory));
+            if (memoriesPage === 1) {
+                dispatch(addMemory(data.memory));
+            }
 
             if (memorySpace) {
-                return navigate(`/memory-spaces/${memorySpace}`);
+                return navigate(`/memories/${data.memory.id}`);
             }
             return navigate(
                 `/memories/share/${data.memory.id}/?while-create=true`
             );
         }
 
-        dispatch(addMemorySpace(data.memory_space));
+        if (spacesPage === 1) {
+            dispatch(addMemorySpace(data.memory_space));
+        }
         navigate(
             `/memory-spaces/add-members/${data.memory_space.id}/?while-create=true`
         );
@@ -278,6 +282,8 @@ const mapStateToProps = (state) => {
         memoryUpdateErrors: state.memories.memoryUpdateErrors,
         memorySpaceToUpdate: state.memorySpaces.memorySpaceToUpdate,
         memorySpaceUpdateErrors: state.memorySpaces.memorySpaceUpdateErrors,
+        memoriesPage: state.memories.page,
+        spacesPage: state.memorySpaces.page,
     };
 };
 

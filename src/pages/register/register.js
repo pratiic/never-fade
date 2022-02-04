@@ -85,8 +85,8 @@ const Register = ({ userInfo, selectedFiles }) => {
 
     return (
         <FormContainer
-            title="Register with never fade"
-            subtitle="Already have an account ?"
+            title="register with Never Fade"
+            subtitle="already have an account ?"
             subtitleLink="login"
         >
             <form onSubmit={handleFormSubmit} className="w-72">

@@ -82,10 +82,6 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                                             }
                                         />
                                         <Route
-                                            path="shared"
-                                            element={<SharedMemories />}
-                                        />
-                                        <Route
                                             path="share/:id"
                                             element={<ShareMemory />}
                                         />
@@ -103,6 +99,10 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                                             }
                                         />
                                     </Route>
+                                    <Route
+                                        path="/shared-memories"
+                                        element={<SharedMemories />}
+                                    />
                                     <Route
                                         path="/profile/me"
                                         element={<UserProfile />}

@@ -17,9 +17,9 @@ const Welcome = ({ userInfo }) => {
 
     return (
         <div className="flex flex-col items-center mt-5">
-            <h1 className="text-4xl text-black">Welcome to Never Fade</h1>
+            <h1 className="text-4xl text-black mb-1">Welcome to Never Fade</h1>
             <p className="text-xl text-grey-darker mb-5">
-                Save and share memories so that they never fade
+                Save and share your memories so that they never fade
             </p>
             <Link to="/register">
                 <button className="button">register</button>

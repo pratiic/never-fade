@@ -3,19 +3,28 @@ export const getSharedMemories = (type) => {
         dispatch({ type: "SHARED_MEMORIES_REQUEST" });
 
         try {
-            const response = await fetch(`/api/memories/shared/?type=${type}`, {
-                headers: {
-                    Authorization: `Bearer ${
-                        getState().currentUser.userInfo.token
-                    }`,
-                },
-            });
+            const response = await fetch(
+                `/api/memories/shared/?type=${type}&page=${
+                    getState().sharedMemories.page
+                }`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${
+                            getState().currentUser.userInfo.token
+                        }`,
+                    },
+                }
+            );
             const data = await response.json();
 
             if (data.memories) {
                 dispatch({
                     type: "SHARED_MEMORIES_SUCCESS",
-                    payload: data.memories,
+                    payload: {
+                        sharedMemories: data.memories,
+                        hasNext: data.has_next,
+                        hasPrev: data.has_prev,
+                    },
                 });
             }
         } catch (error) {
@@ -56,6 +65,19 @@ export const setNeedToFetch = (needToFetch) => {
     return {
         type: "SET_NEED_TO_FETCH_SHARED_MEMORIES",
         payload: needToFetch,
+    };
+};
+
+export const incrementPage = () => {
+    return {
+        type: "INCREMENT_SHARED_MEMORIES_PAGE",
+    };
+};
+
+export const setPage = (page, needToFetch = false) => {
+    return {
+        type: "SET_SHARED_MEMORIES_PAGE",
+        payload: { page, needToFetch },
     };
 };
 

@@ -7,17 +7,24 @@ export const getMemorySpaces = () => {
         dispatch({ type: "MEMORY_SPACES_REQUEST" });
 
         try {
-            const response = await fetch("/api/memory-spaces", {
-                headers: {
-                    Authorization: `Bearer ${
-                        getState().currentUser.userInfo.token
-                    }`,
-                },
-            });
+            const response = await fetch(
+                `/api/memory-spaces/?page=${getState().memorySpaces.page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${
+                            getState().currentUser.userInfo.token
+                        }`,
+                    },
+                }
+            );
             const data = await response.json();
             dispatch({
                 type: "MEMORY_SPACES_SUCCESS",
-                payload: data["memory-spaces"],
+                payload: {
+                    memorySpaces: data.memory_spaces,
+                    hasNext: data.has_next,
+                    hasPrev: data.has_prev,
+                },
             });
         } catch (error) {
             console.log(error);
@@ -84,6 +91,26 @@ export const removeMemorySpace = (id) => {
     return {
         type: "REMOVE_MEMORY_SPACE",
         payload: id,
+    };
+};
+
+export const incrementPage = () => {
+    return {
+        type: "INCREMENT_SPACES_PAGE",
+    };
+};
+
+export const setPage = (page, needToFetch = false) => {
+    return {
+        type: "SET_SPACES_PAGE",
+        payload: { page, needToFetch },
+    };
+};
+
+export const setNeedToFetch = (needToFetch) => {
+    return {
+        type: "SET_NEED_TO_FETCH_SPACES",
+        payload: needToFetch,
     };
 };
 

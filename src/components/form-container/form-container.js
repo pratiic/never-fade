@@ -22,7 +22,7 @@ const FormContainer = ({
                 </h3>
                 {subtitle && (
                     <h4 className="text-center text-lg text-grey-darker">
-                        {subtitle}{" "}
+                        {capitalizeFirstLetter(subtitle)}{" "}
                         <Link to={`/${subtitleLink}`} className="link">
                             {subtitleLink}
                         </Link>

@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { HiPlus } from "react-icons/hi";
 
-import { getMemorySpaces } from "../../redux/memory-spaces/memory-spaces.actions";
-import { setSearchType } from "../../redux/search/search.actions";
+import {
+    getMemorySpaces,
+    setPage,
+} from "../../redux/memory-spaces/memory-spaces.actions";
 
 import Heading from "../../components/heading/heading";
 import CardsList from "../../components/cards-list/cards-list";
 
 const MemorySpaces = ({
-    memorySpaces: { memorySpaces, loading, needToFetch },
+    memorySpaces: {
+        memorySpaces,
+        loading,
+        needToFetch,
+        hasNext,
+        hasPrev,
+        page,
+    },
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const memorySpacesMessage = "you are not a member of any memory spaces";
+    const queryPage = Number(location.search.split("=")[1]);
 
     useEffect(() => {
         document.title = "Memory spaces";
     }, []);
 
     useEffect(() => {
-        if (needToFetch) {
+        if (needToFetch && page) {
             dispatch(getMemorySpaces());
         }
-    }, [needToFetch]);
+    }, [needToFetch, page]);
 
-    const handleSearchClick = () => {
-        dispatch(setSearchType("memory space"));
-        navigate("/search");
+    useEffect(() => {
+        if (queryPage > 0) {
+            return dispatch(setPage(queryPage, queryPage !== page));
+        }
+
+        navigateToPage(page || 1);
+    }, [queryPage]);
+
+    const navigateToPage = (page) => {
+        navigate(`/memory-spaces/?page=${page}`);
     };
 
     return (
@@ -47,6 +65,11 @@ const MemorySpaces = ({
                     title: "create memory space",
                     linkTo: "/memory-spaces/create",
                 }}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
+                page={page}
+                fetchNextInitiator={() => navigateToPage(page + 1)}
+                fetchPrevInitiator={() => navigateToPage(page - 1)}
             />
         </div>
     );

@@ -10,6 +10,7 @@ from rest_framework import status
 from django.core.mail import EmailMessage
 from django.conf import settings
 import random
+from django.core.paginator import Paginator
 
 from .models import Memory, User, Image, MemorySpace
 from .serializers import MemorySerializer, UserSerializer, UserSerializerWithToken, ImageSerializer, MemoryDetailsSerializer, MemorySpaceSerializer, MemorySpaceDetailsSerializer
@@ -180,11 +181,9 @@ def reset_user_password (request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_memories(request):
-    # is_guest = request.query_params["guest"]
-    # memories = Memory.objects.filter(
-    #     owners__id=request.user.id) if is_guest == "false" else Memory.objects.filter(guests__id=request.user.id)
     memories = None
     memory_space = request.query_params.get("memory-space")
+    page_number = request.query_params.get("page") or 1
 
     if memory_space:
         memories = Memory.objects.filter(Q(memory_space=memory_space) & Q(
@@ -192,8 +191,12 @@ def get_memories(request):
     else:
         memories = Memory.objects.filter(
             owner=request.user.id).filter(memory_space=None)
-    serializer = MemorySerializer(memories, many=True)
-    return Response({"memories": serializer.data})
+
+    paginator = Paginator(memories, 5)
+    page = paginator.get_page(page_number)
+    serializer = MemorySerializer(page.object_list, many=True)
+
+    return Response({"memories": serializer.data, "has_next": page.has_next(), "has_prev": page.has_previous()})
 
 
 @api_view(["GET"])
@@ -201,6 +204,7 @@ def get_memories(request):
 def get_shared_memories(request):
     type = request.query_params["type"]
     query = None
+    page_number = request.query_params.get("page") or 1
 
     if type == "with me":
         query = ~Q(owner=request.user.id) & Q(shared_with__id=request.user.id)
@@ -208,9 +212,11 @@ def get_shared_memories(request):
         query = Q(owner=request.user.id) & Q(shared=True)
 
     memories = Memory.objects.filter(query)
-    serializer = MemorySerializer(memories, many=True)
+    paginator = Paginator(memories, 5)
+    page = paginator.get_page(page_number)
+    serializer = MemorySerializer(page.object_list, many=True)
 
-    return Response({"memories": serializer.data})
+    return Response({"memories": serializer.data, "has_next": page.has_next(), "has_prev": page.has_previous()})
 
 
 @api_view(["POST"])
@@ -419,7 +425,6 @@ def delete_image(request, image_id):
 def create_memory_space(request):
     serializer = MemorySpaceSerializer(data=request.data, many=False)
 
-
     try:
         if serializer.is_valid():
             memory_space = serializer.save()
@@ -437,10 +442,14 @@ def create_memory_space(request):
 @ api_view(["GET"])
 @ permission_classes([IsAuthenticated])
 def get_memory_spaces(request):
-    memory_spaces = MemorySpace.objects.filter(users__id=request.user.id)
-    serializer = MemorySpaceSerializer(memory_spaces, many=True)
+    page_number = request.query_params.get("page") or 1
 
-    return Response({"memory-spaces": serializer.data})
+    memory_spaces = MemorySpace.objects.filter(users__id=request.user.id)
+    paginator = Paginator(memory_spaces, 5)
+    page = paginator.get_page(page_number)
+    serializer = MemorySpaceSerializer(page.object_list, many=True)
+
+    return Response({"memory_spaces": serializer.data, "has_next": page.has_next(), "has_prev": page.has_previous()})
 
 
 @ api_view(["GET"])
