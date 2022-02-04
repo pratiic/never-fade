@@ -37,6 +37,8 @@ const ContentMenu = ({
     date,
     category,
     showDropdownRedux,
+    memories,
+    sharedMemories,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -97,11 +99,20 @@ const ContentMenu = ({
 
             if (response.status === 200) {
                 if (type === "memory") {
-                    dispatch(setNeedToFetchMemories(true));
-                    dispatch(setNeedToFetchSharedMemories(true));
+                    if (memories.find((memory) => memory.id === Number(id))) {
+                        dispatch(setNeedToFetchMemories(true));
+                    }
+
+                    if (
+                        sharedMemories.find(
+                            (memory) => memory.id === Number(id)
+                        )
+                    ) {
+                        dispatch(setNeedToFetchSharedMemories(true));
+                    }
                     // dispatch(removeMemory(Number(id)));
                     // dispatch(removeSharedMemory(Number(id)));
-                    return navigate("/memories");
+                    return navigate(-1);
                 }
 
                 // dispatch(removeMemorySpace(Number(id)));
@@ -133,6 +144,8 @@ const mapStateToProps = (state) => {
     return {
         userInfo: state.currentUser.userInfo,
         showDropdownRedux: state.dropdown.showDropdown,
+        memories: state.memories.memories,
+        sharedMemories: state.sharedMemories.sharedMemories,
     };
 };
 

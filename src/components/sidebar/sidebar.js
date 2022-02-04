@@ -3,8 +3,8 @@ import { BsImages } from "react-icons/bs";
 import { FiSearch, FiUsers } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiExit } from "react-icons/bi";
-import { useLocation, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FaSlideshare } from "react-icons/fa";
 import { connect } from "react-redux";
 
@@ -17,7 +17,17 @@ import {
 import SidebarIcon from "../sidebar-icon/sidebar-icon";
 import ContentOptions from "../content-options/content-options";
 
-const Sidebar = ({ sidebar: { full, show }, memoriesPage }) => {
+const Sidebar = ({
+    sidebar: { full, show },
+    memoriesPage,
+    sharedMemoriesPage,
+    spacesPage,
+}) => {
+    const location = useLocation();
+    const linkClassName = `flex items-center justify-end text-grey-darker w-full bg-grey group hover:text-black active:text-grey-darker transition-all duration-100 px-11 py-3 border-b border-grey-light 850:px-7`;
+    const spanClassName = "mr-3 capitalize text-lg transition-all duration-100";
+    const iconClassName = "sidebar-icon group-active:text-grey-darker";
+
     const handleCreateClick = () => {
         dispatch(showModal(<ContentOptions />));
     };
@@ -37,71 +47,40 @@ const Sidebar = ({ sidebar: { full, show }, memoriesPage }) => {
 
     const [links, setLinks] = useState([
         {
-            title: "memories",
-            icon: (
-                <BsImages className="sidebar-icon group-active:text-grey-darker" />
-            ),
-            activeLinks: ["/memories"],
-            linkTo: `/memories`,
-            active: false,
-        },
-        {
             title: "search",
-            icon: (
-                <FiSearch className="sidebar-icon group-active:text-grey-darker" />
-            ),
+            icon: <FiSearch className={iconClassName} />,
             activeLinks: ["/search"],
             linkTo: "/search",
             active: false,
         },
         {
-            title: "shared",
-            icon: (
-                <FiUsers className="sidebar-icon group-active:text-grey-darker" />
-            ),
-            activeLinks: ["shared-memories"],
-            linkTo: "/shared-memories",
-            active: false,
-        },
-        {
-            title: "spaces",
-            icon: (
-                <FaSlideshare className="sidebar-icon group-active:text-grey-darker" />
-            ),
-            activeLinks: ["/memory-spaces"],
-            linkTo: "/memory-spaces",
-            active: false,
-        },
-        {
             title: "create",
-            icon: (
-                <AiOutlinePlus className="sidebar-icon group-active:text-grey-darker" />
-            ),
+            icon: <AiOutlinePlus className={iconClassName} />,
             activeLinks: ["/memories/create", "/memory-spaces/create"],
             clickHandler: handleCreateClick,
             active: false,
         },
         {
             title: "sign out",
-            icon: (
-                <BiExit className="sidebar-icon group-active:text-grey-darker" />
-            ),
+            icon: <BiExit className={iconClassName} />,
             activeLinks: [],
             clickHandler: handleLogoutClick,
             active: false,
         },
     ]);
 
-    const location = useLocation();
     const dispatch = useDispatch();
+
+    const isActive = (link) => {
+        return location.pathname === link;
+    };
 
     useEffect(() => {
         setLinks(
             links.map((link) => {
                 if (
-                    link.activeLinks.find((activeLink) =>
-                        location.pathname.includes(activeLink)
-                    )
+                    isActive(link.activeLinks[0]) ||
+                    isActive(link.activeLinks[1])
                 ) {
                     return { ...link, active: true };
                 }
@@ -119,6 +98,35 @@ const Sidebar = ({ sidebar: { full, show }, memoriesPage }) => {
                 show && "translate-x-0"
             } overflow-scroll`}
         >
+            <Link
+                to={`/memories/?page=${memoriesPage || 1}`}
+                className={`${linkClassName} ${
+                    isActive("/memories/") && "text-blue"
+                }`}
+            >
+                <span className={spanClassName}>memories</span>
+                <SidebarIcon icon={<BsImages className={iconClassName} />} />
+            </Link>
+            <Link
+                to={`/shared-memories/?page=${sharedMemoriesPage || 1}`}
+                className={`${linkClassName} ${
+                    isActive("/shared-memories/") && "text-blue"
+                }`}
+            >
+                <span className={spanClassName}>shared</span>
+                <SidebarIcon icon={<FiUsers className={iconClassName} />} />
+            </Link>
+            <Link
+                to={`/memory-spaces/?page=${spacesPage || 1}`}
+                className={`${linkClassName} ${
+                    isActive("/memory-spaces/") && "text-blue"
+                }`}
+            >
+                <span className={spanClassName}>spaces</span>
+                <SidebarIcon
+                    icon={<FaSlideshare className={iconClassName} />}
+                />
+            </Link>
             {links.map((link) => {
                 return (
                     <div
@@ -127,7 +135,10 @@ const Sidebar = ({ sidebar: { full, show }, memoriesPage }) => {
                         key={link.title}
                     >
                         <Link
-                            to={link.linkTo || ""}
+                            to={
+                                link.linkTo ||
+                                `${location.pathname}${location.search}`
+                            }
                             className={`flex items-center justify-end text-grey-darker w-full bg-grey group hover:text-black active:text-grey-darker transition-all duration-100 ${
                                 link.active && "text-blue"
                             } ${
@@ -161,6 +172,8 @@ const mapStateToProps = (state) => {
     return {
         sidebar: state.sidebar,
         memoriesPage: state.memories.page,
+        sharedMemoriesPage: state.sharedMemories.page,
+        spacesPage: state.memorySpaces.page,
     };
 };
 

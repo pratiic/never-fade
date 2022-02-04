@@ -35,11 +35,9 @@ const Memories = ({
     }, [needToFetch, page]);
 
     useEffect(() => {
-        if (queryPage > 0) {
-            return dispatch(setPage(queryPage, queryPage !== page));
+        if (queryPage !== page) {
+            dispatch(setPage(queryPage, true));
         }
-
-        navigateToPage(page || 1);
     }, [queryPage]);
 
     const navigateToPage = (page) => {

@@ -14,7 +14,7 @@ import UserSearch from "../../components/user-search/user-search";
 const ShareMemory = ({
     selectedUsers,
     userInfo,
-    sharedMemories: { options },
+    sharedMemories: { options, page },
 }) => {
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const ShareMemory = ({
             );
 
             if (data.memory) {
-                if (activeOption.title === "by me") {
+                if (activeOption.title === "by me" && page === 1) {
                     dispatch(addSharedMemory(data.memory));
                 }
 

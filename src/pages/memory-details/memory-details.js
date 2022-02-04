@@ -115,7 +115,11 @@ const MemoryDetails = ({ userInfo, memories, sharedMemories }) => {
 
                 if (userID === userInfo.id) {
                     dispatch(removeSharedMemory(data.memory.id));
-                    navigate("/memories/shared");
+                    navigate(-1);
+                }
+
+                if (data.memory.shared_with.length === 0) {
+                    dispatch(removeSharedMemory(data.memory.id));
                 }
             }
         } catch (error) {
