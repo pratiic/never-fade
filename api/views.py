@@ -58,8 +58,8 @@ def register(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request):
-    user = User.objects.find(id=request.user.id)
-    serializer = UserSerializer(user)
+    user = User.objects.get(id=request.user.id)
+    serializer = UserSerializerWithToken(user)
     return Response({"user": serializer.data})
 
 

@@ -77,14 +77,14 @@ export const sharedMemoriesReducer = (state = INITIAL_STATE, action) => {
             };
         case "INCREMENT_SHARED_MEMORIES_PAGE":
             return { ...state, page: state.page + 1, needToFetch: true };
-        case "RESET_SHARED_MEMORIES":
-            return { ...INITIAL_STATE };
         case "SET_SHARED_MEMORIES_PAGE":
             return {
                 ...state,
                 page: action.payload.page,
                 needToFetch: action.payload.needToFetch,
             };
+        case "RESET_SHARED_MEMORIES":
+            return { ...INITIAL_STATE };
         default:
             return state;
     }

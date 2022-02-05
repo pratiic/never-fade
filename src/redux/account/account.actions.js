@@ -4,3 +4,9 @@ export const setAccountEmail = (email) => {
         payload: email,
     };
 };
+
+export const resetAccount = () => {
+    return {
+        type: "RESET_ACCOUNT",
+    };
+};

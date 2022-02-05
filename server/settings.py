@@ -17,6 +17,7 @@ import dj_database_url
 import dotenv
 import os
 import cloudinary_storage
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,11 +27,14 @@ dotenv_file = BASE_DIR / ".env"
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
+env = environ.Env()
+environ.Env.read_env()
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-9(kfr*bg4lzt8yb6%6(7=2(nsvc-f==zxiqx0r489w9&zj#sey"
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -225,9 +229,9 @@ options = DATABASES["default"].get("OPTIONS", {})
 options.pop("sslmode", None)
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dufhakb5r',
-    'API_KEY': '898419963482389',
-    'API_SECRET': '1ZTlsSTSNSFEnWjUj6q_wtHOqo8'
+    'CLOUD_NAME': env("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': env("CLOUDINARY_API_KEY"),
+    'API_SECRET': env("CLOUDINARY_API_SECRET")
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -237,4 +241,4 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "neverfade.original@gmail.com"
-EMAIL_HOST_PASSWORD = "prat123!"
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")

@@ -1,3 +1,4 @@
+import { resetAccount } from "../account/account.actions";
 import { resetMemories } from "../memories/memories.actions";
 import { resetMemorySpaces } from "../memory-spaces/memory-spaces.actions";
 import { resetSharedMemories } from "../shared-memories/shared-memories.actions";
@@ -22,5 +23,6 @@ export const logout = () => {
         dispatch(resetMemories());
         dispatch(resetSharedMemories());
         dispatch(resetMemorySpaces());
+        dispatch(resetAccount());
     };
 };

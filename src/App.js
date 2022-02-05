@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 
@@ -33,7 +33,6 @@ const ContentSearch = lazy(() =>
 );
 const AddMembers = lazy(() => import("./pages/add-members/add-members"));
 const UserProfile = lazy(() => import("./pages/user-profile/user-profile"));
-const ResetAccount = lazy(() => import("./pages/reset-account/reset-account"));
 const SendCode = lazy(() => import("./pages/send-code/send-code"));
 const ResetPassword = lazy(() =>
     import("./pages/reset-password/reset-password")
