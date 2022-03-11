@@ -7,7 +7,7 @@ import { BsImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
 import { closeModal, showLoadingModal } from "../../redux/modal/modal.actions";
-import { showGallery } from "../../redux/gallery/gallery.actions";
+import { resetGallery, showGallery } from "../../redux/gallery/gallery.actions";
 
 import Heading from "../heading/heading";
 import ImagesAdder from "../images-adder/images-adder";
@@ -44,6 +44,7 @@ const ImagesList = ({
 
         const handleDeleteClick = async () => {
             dispatch(showLoadingModal("deleting image"));
+            dispatch(resetGallery());
 
             try {
                 const response = await fetch(`/api/images/delete/${id}/`, {
@@ -64,6 +65,10 @@ const ImagesList = ({
         };
 
         const handleImageClick = (event) => {
+            if (event.target.id === "image-deleter") {
+                return;
+            }
+
             dispatch(
                 showGallery(
                     images.map((image) => {
@@ -86,6 +91,7 @@ const ImagesList = ({
                 {canAdd && (
                     <TiDeleteOutline
                         className="absolute top-0 right-0 text-grey icon z-10"
+                        id="image-deleter"
                         onClick={handleDeleteClick}
                     />
                 )}
