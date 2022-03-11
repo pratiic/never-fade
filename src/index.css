@@ -126,6 +126,10 @@
     .human {
         @apply w-64 500:w-72;
     }
+
+    .image {
+        @apply block object-cover;
+    }
 }
 
 .app {

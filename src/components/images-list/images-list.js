@@ -7,6 +7,7 @@ import { BsImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
 import { closeModal, showLoadingModal } from "../../redux/modal/modal.actions";
+import { showGallery } from "../../redux/gallery/gallery.actions";
 
 import Heading from "../heading/heading";
 import ImagesAdder from "../images-adder/images-adder";
@@ -28,7 +29,7 @@ const ImagesList = ({
         setShowAdder(!showAdder);
     };
 
-    const Image = ({ url, id }) => {
+    const Image = ({ url, id, index }) => {
         const imageRef = useRef();
         const imageContainerRef = useRef();
 
@@ -62,10 +63,25 @@ const ImagesList = ({
             }
         };
 
+        const handleImageClick = (event) => {
+            dispatch(
+                showGallery(
+                    images.map((image) => {
+                        return {
+                            src: image.image,
+                            id: image.id,
+                        };
+                    }),
+                    index
+                )
+            );
+        };
+
         return (
             <div
                 className="cursor-pointer rounded-sm shadow-md overflow-hidden mb-1 relative min-h-11 bg-grey"
                 ref={imageContainerRef}
+                onClick={handleImageClick}
             >
                 {canAdd && (
                     <TiDeleteOutline
@@ -78,7 +94,7 @@ const ImagesList = ({
                     src={url}
                     alt="mem img"
                     ref={imageRef}
-                    className="block object-cover w-full relative"
+                    className="image w-full relative"
                 />
             </div>
         );
@@ -129,11 +145,12 @@ const ImagesList = ({
 
             {images.length > 0 ? (
                 <div className="grid grid-cols-list auto-rows-3 gap-x-1 grid-flow-row-dense">
-                    {images.map((image) => {
+                    {images.map((image, index) => {
                         return (
                             <Image
                                 url={image.image}
                                 id={image.id}
+                                index={index}
                                 key={image.id}
                             />
                         );

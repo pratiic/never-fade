@@ -11,6 +11,7 @@ import { dropdownReducer } from "./dropdown/dropdown.reducer";
 import { modalReducer } from "./modal/modal.reducer";
 import { sidebarReducer } from "./sidebar/sidebar.reducer";
 import { accountReducer } from "./account/account.reducer";
+import { galleryReducer } from "./gallery/gallery.reducer";
 
 export default combineReducers({
     currentUser: currentUserReducer,
@@ -24,4 +25,5 @@ export default combineReducers({
     modal: modalReducer,
     sidebar: sidebarReducer,
     account: accountReducer,
+    gallery: galleryReducer,
 });

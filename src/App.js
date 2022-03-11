@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 
@@ -16,6 +16,7 @@ import Loading from "./pages/loading/loading";
 import Modal from "./components/modal/modal";
 import Welcome from "./pages/welcome/welcome";
 import NotFound from "./pages/not-found/not-found";
+import Gallery from "./components/gallery/gallery";
 const SharedMemories = lazy(() =>
     import("./pages/shared-memories/shared-memories")
 );
@@ -57,6 +58,7 @@ const App = ({ userInfo, showDropdown, showSidebar }) => {
                 <div className="overflow-scroll h-full">
                     <Header />
                     <Modal />
+                    <Gallery />
                     <div className="850:grid 850:grid-cols-2 mt-3.5 h-[calc(100%-3.5rem)]">
                         {userInfo ? <Sidebar /> : <div></div>}
                         <div className="px-5 py-2 overflow-scroll 650:px-7 h-full">
