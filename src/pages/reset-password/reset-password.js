@@ -96,7 +96,7 @@ const ResetPassword = ({ email, userInfo }) => {
                 <InputGroup
                     label="code"
                     placeholder="4-digit code"
-                    info="the code you just received in your email"
+                    info="the code you just received in your email, be sure to check spam"
                     ref={inputRef}
                     changeHandler={setCode}
                 />

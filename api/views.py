@@ -136,6 +136,14 @@ def get_password_reset_code (request, user_email):
     except:
         return Response({ "error": "not found" }, status = 404)
 
+    # reset_code = random.randint(1000, 9999)
+    # user.reset_code = reset_code
+
+    # send_email("reset your password", f"The code to reset your password is { reset_code }", user_email)
+    # user.save()
+
+    # return Response({})
+
     try:
         reset_code = random.randint(1000, 9999)
         user.reset_code = reset_code

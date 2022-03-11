@@ -34,9 +34,10 @@ const ImagesList = ({
 
         useEffect(() => {
             imageRef.current.addEventListener("load", () => {
-                imageContainerRef.current.style.gridRow = `auto / span ${Math.ceil(
-                    imageRef.current.clientHeight / 3
-                )}`;
+                let span = Math.ceil(imageRef.current.clientHeight / 3);
+                span = span <= 115 ? span : 115;
+
+                imageContainerRef.current.style.gridRow = `auto / span ${span}`;
             });
         }, []);
 
@@ -50,7 +51,6 @@ const ImagesList = ({
                         Authorization: `Bearer ${userInfo.token}`,
                     },
                 });
-                const data = await response.json();
 
                 if (response.status === 200) {
                     removeMemoryImage(id);
@@ -76,6 +76,7 @@ const ImagesList = ({
                 <BsImage className="image-icon" />
                 <img
                     src={url}
+                    alt="mem img"
                     ref={imageRef}
                     className="block object-cover w-full relative"
                 />

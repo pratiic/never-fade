@@ -3,8 +3,8 @@ import { BsImages } from "react-icons/bs";
 import { FiSearch, FiUsers } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiExit } from "react-icons/bi";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useLocation, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { FaSlideshare } from "react-icons/fa";
 import { connect } from "react-redux";
 
@@ -24,9 +24,9 @@ const Sidebar = ({
     spacesPage,
 }) => {
     const location = useLocation();
-    const linkClassName = `flex items-center justify-end text-grey-darker w-full bg-grey group hover:text-black active:text-grey-darker transition-all duration-100 px-11 py-3 border-b border-grey-light 850:px-7`;
+    const linkClassName = `flex items-center justify-end text-grey-darker w-full bg-grey group hover:text-blue active:text-blue-darker transition-all duration-100 px-11 py-3 border-b border-grey-light 850:px-7`;
     const spanClassName = "mr-3 capitalize text-lg transition-all duration-100";
-    const iconClassName = "sidebar-icon group-active:text-grey-darker";
+    const iconClassName = "h-5 w-5";
 
     const handleCreateClick = () => {
         dispatch(showModal(<ContentOptions />));
@@ -139,7 +139,7 @@ const Sidebar = ({
                                 link.linkTo ||
                                 `${location.pathname}${location.search}`
                             }
-                            className={`flex items-center justify-end text-grey-darker w-full bg-grey group hover:text-black active:text-grey-darker transition-all duration-100 ${
+                            className={`${linkClassName} ${
                                 link.active && "text-blue"
                             } ${
                                 full
