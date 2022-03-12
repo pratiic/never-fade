@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { setCurrentUser } from "../../redux/current-user/current-user.actions";
 import { resetFiles } from "../../redux/files/files.actions";
@@ -19,12 +20,19 @@ import MessagesContainer from "../../components/messages-container/messages-cont
 import FormContainer from "../../components/form-container/form-container";
 
 const UserProfile = ({ userInfo, selectedFiles }) => {
+    useEffect(() => {
+        if (!userInfo) {
+            return navigate("/login");
+        }
+    }, [userInfo]);
+
     const { id, avatar } = userInfo;
     const [username, setUsername] = useState(userInfo.username);
     const [email, setEmail] = useState(userInfo.email);
     const [errors, setErrors] = useState([]);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = "Your profile";
@@ -173,6 +181,7 @@ const UserProfile = ({ userInfo, selectedFiles }) => {
                         username={username}
                         size="full"
                         rounded={false}
+                        expand={true}
                     />
                     <div className="mt-3"></div>
                     <FileSelector full />

@@ -17,13 +17,14 @@ const Gallery = ({ galleryInfo: { show, images, activeIndex } }) => {
     const imgLinkRef = useRef();
     const icon =
         "icon h-5 w-5 bg-grey-dark opacity-80 hover:opacity-100 z-50 absolute";
-    const stepIcon = `${icon} top-1/2 -translate-y-full`;
+    const stepIcon = `${icon} top-1/2 -translate-y-1/2`;
+    const canStep = images.length > 1;
 
     useEffect(() => {
         if (containerRef.current) {
             containerRef.current.focus();
         }
-    }, [containerRef.current]);
+    });
 
     const handleContainerClick = (event) => {
         if (event.target.id === "gallery-container") {
@@ -33,11 +34,19 @@ const Gallery = ({ galleryInfo: { show, images, activeIndex } }) => {
 
     const handleKeyPress = (event) => {
         if (event.code === "ArrowLeft") {
-            dispatch(decrementActiveIndex());
+            if (canStep) {
+                dispatch(decrementActiveIndex());
+            }
         }
 
         if (event.code === "ArrowRight") {
-            dispatch(incrementActiveIndex());
+            if (canStep) {
+                dispatch(incrementActiveIndex());
+            }
+        }
+
+        if (event.code === "Escape") {
+            dispatch(resetGallery());
         }
     };
 
@@ -58,7 +67,7 @@ const Gallery = ({ galleryInfo: { show, images, activeIndex } }) => {
 
     return (
         <div
-            className={`flex justify-center items-center fixed h-full w-full z-50 bg-black-modal outline-none`}
+            className={`flex justify-center items-center fixed h-full w-full z-50 bg-black outline-none`}
             id="gallery-container"
             tabIndex={-1}
             ref={containerRef}
@@ -77,7 +86,7 @@ const Gallery = ({ galleryInfo: { show, images, activeIndex } }) => {
                 download image
             </a>
 
-            {images.length > 1 && (
+            {canStep && (
                 <FiArrowLeft
                     className={`${stepIcon} left-3 500:left-5`}
                     onClick={() => dispatch(decrementActiveIndex())}
@@ -91,14 +100,14 @@ const Gallery = ({ galleryInfo: { show, images, activeIndex } }) => {
                 className="image max-w-full max-h-full relative"
             />
 
-            {images.length > 1 && (
+            {canStep && (
                 <FiArrowRight
                     className={`${stepIcon} right-3 500:right-5`}
                     onClick={() => dispatch(incrementActiveIndex())}
                 />
             )}
 
-            <p className="text-grey-darker absolute bottom-1 left-1/2 -translate-x-full z-50 bg-grey opacity-70 rounded px-2">
+            <p className="text-grey-darker absolute bottom-3 left-1/2 -translate-x-1/2 z-50 bg-grey opacity-70 rounded px-2">
                 {activeIndex + 1} of {images.length}
             </p>
         </div>

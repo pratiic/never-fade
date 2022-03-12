@@ -1,6 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
-const ProfilePicture = ({ url, username, size, rounded = true }) => {
+import { showGallery } from "../../redux/gallery/gallery.actions";
+
+const ProfilePicture = ({
+    url,
+    username,
+    size,
+    rounded = true,
+    expand = false,
+}) => {
+    const dispatch = useDispatch();
+    const imageURL =
+        url || `https://avatars.dicebear.com/api/initials/${username}.svg`;
     let classNames = "";
 
     if (size === "smaller") {
@@ -13,6 +25,12 @@ const ProfilePicture = ({ url, username, size, rounded = true }) => {
         classNames += " h-11 w-11";
     }
 
+    const handleImageClick = () => {
+        if (expand) {
+            dispatch(showGallery([{ src: imageURL, id: username }]));
+        }
+    };
+
     return (
         <div
             className={`${
@@ -20,13 +38,12 @@ const ProfilePicture = ({ url, username, size, rounded = true }) => {
             } ${classNames} bg-grey`}
         >
             <img
-                src={
-                    url ||
-                    `https://avatars.dicebear.com/api/initials/${username}.svg`
-                }
-                className={`block h-full w-full object-cover ${
+                src={imageURL}
+                alt="profile img"
+                className={`block h-full w-full object-cover cursor-pointer ${
                     rounded ? "rounded-full" : "rounded"
                 }`}
+                onClick={handleImageClick}
             />
         </div>
     );
