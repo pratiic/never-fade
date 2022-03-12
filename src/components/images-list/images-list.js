@@ -65,7 +65,10 @@ const ImagesList = ({
         };
 
         const handleImageClick = (event) => {
-            if (event.target.id === "image-deleter") {
+            if (
+                event.target.id === "image-deleter" ||
+                event.target.parentNode.id === "image-deleter"
+            ) {
                 return;
             }
 
@@ -100,7 +103,7 @@ const ImagesList = ({
                     src={url}
                     alt="mem img"
                     ref={imageRef}
-                    className="image w-full relative"
+                    className="image w-full relative min-h-11"
                 />
             </div>
         );

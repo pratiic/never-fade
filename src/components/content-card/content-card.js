@@ -28,8 +28,9 @@ const ContentCard = ({ title, created_at, id, image, type, users, query }) => {
                             ? image
                             : `https://avatars.dicebear.com/api/initials/${title}.svg`
                     }
+                    alt="mem img"
                     className={`block w-full object-cover top-rounded relative ${
-                        image ? "max-h-64" : "max-h-48"
+                        image ? "max-h-64 min-h-11" : "max-h-48"
                     }`}
                 />
             </div>

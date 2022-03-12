@@ -57,6 +57,7 @@ module.exports = {
                 25: "25rem",
                 80: "80%",
                 90: "90%",
+                95: "95%",
             },
             minHeight: {
                 5: "5rem",
@@ -65,6 +66,7 @@ module.exports = {
             },
             maxHeight: {
                 80: "80%",
+                95: "95%",
             },
             animation: {
                 spin: "spin 2s infinite linear",
